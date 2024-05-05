@@ -1,0 +1,23 @@
+{
+  "name": "proyect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "api",
+    "app"
+  ],
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "app": "npm run dev --workspace=app",
+    "api": "npm run dev --workspace=api",
+    "inspect": "npm run inspect --workspace=api",
+    "start": "npm run dev --workspaces",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
