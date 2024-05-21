@@ -60,7 +60,6 @@ User
 - roles(string,required default= customer|manager)
 - cinema(Cinema.id,optional)
 
-
 Cinema(cinema)
 - id(auto)
 - address(string,required)
