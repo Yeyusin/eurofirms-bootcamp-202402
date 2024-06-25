@@ -62,6 +62,7 @@ User
 
 Cinema(cinema)
 - id(auto)
+- name(string,required) 
 - address(string,required)
 
 Room(Today)
@@ -69,16 +70,16 @@ Room(Today)
 - num(number,required)
 - cinema(Cinema.id,required)
 - temperature(string,required)
-- films(array of strings,required)
+<!-- - films(array of strings,required) -->
 
 Ticket
 - id(auto)
 - user(User.id)
 - cinema(Cinema.id,required)
 - room(Room.id,required)
-- buyDate(date,required)
-- filmDate(date, required)
-- film(string, required)
+<!-- - buyDate(date,required)
+- filmDate(date, required) -->
+<!-- - *film(string, required)* -->
 - seat(string, required)
 
 Issue

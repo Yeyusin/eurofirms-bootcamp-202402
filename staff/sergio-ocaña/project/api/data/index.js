@@ -5,6 +5,11 @@ const { Schema, model } = mongoose
 const { Types: { ObjectId } } = Schema
 
 const cinema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
     address: {
         type: String,
         required: true,
@@ -33,7 +38,14 @@ const user = new Schema({
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        requiered: true,
+        enum: ['student', 'teacher'],
+        default: 'student'
     }
+
 })
 
 const Cinema = model('Cinema', cinema)

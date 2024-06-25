@@ -1,9 +1,9 @@
-import { User, Cinema } from '../data/index.js'
+import { User } from '../data/index.js'
 import { validate, errors } from 'com'
 
 const { SystemError, DuplicityError } = errors
 
-function registerManager(name, birthdate, email, cinema, password) {
+function registerManager(name, birthdate, email, password) {
     validate.name(name)
     validate.birthdate(birthdate)
     validate.email(email)
@@ -14,18 +14,13 @@ function registerManager(name, birthdate, email, cinema, password) {
         .then(user => {
             if (user) throw new DuplicityError
 
-            return Cinema.findOne(address)
+            user = { name, birthdate, email, password, role: manager }
+
+            return User.create(user)
                 .catch(error => { throw new SystemError(error.message) })
-                .then(cinema => {
-                    if (cinema) console.log(cinema)
+                .then(user => { })
 
-                    else {
-                        return Cinema.create({ address })
-                            .catch(error => { throw new SystemError(error.message) })
-                            .then(cinema => { console.log(cinema) })
-                    }
-                })
         })
-
 }
+
 export default registerManager
