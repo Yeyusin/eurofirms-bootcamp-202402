@@ -4,6 +4,7 @@ import cors from 'cors'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import { errors } from 'com'
+import logic from './logic/index.js';
 
 dotenv.config()
 
@@ -21,7 +22,83 @@ mongoose.connect(MONGO_URL)
 
         server.use(cors())
 
-        server.post('/customer', jsonBodyParser, (req, res) => {
-            const { name, birthdate, email, username, password } = req.body
+        server.post('/users/customer', jsonBodyParser, (req, res) => {
+            try {
+                const { name, birthdate, email, username, password } = req.body
+
+                logic.registerCustomer(name, birthdate, email, username, password)
+                    .then(() => res.status(201).send())
+                    .catch(error => {
+                        let status = 500
+
+                        if (error instanceof DuplicityError)
+                            status = 409
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
+                    })
+            } catch (error) {
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof RangeError || error instanceof ContentError)
+                    status = 409
+                res.status(status).json({ error: error.constructor.name, message: error.message })
+            }
+
+            server.post('/users/manager', jsonBodyParser, req, res => {
+                try {
+                    const { name, birthdate, email, password } = req.body
+
+                    logic.registerManager(name, birthdate, email, password)
+                        .then(() => res.status(201).send)
+                        .catch(error => {
+                            let status = 500
+
+                            if (error instanceof DuplicityError)
+                                status = 409
+                            res.status(status).json({ error: error.constructor.name, message: error.message })
+
+                            status = 400
+                        })
+
+                } catch (error) {
+                    let status = 500
+
+                    if (error instanceof TypeError || error instanceof RangeError || error instanceof ContentError)
+                        status = 400
+
+                    res.status(status).json({ error: error.constructor.name, message: error.message })
+                }
+
+                server.post('/users/auth', jsonBodyParser, (req, res) => {
+                    try {
+                        const { email, password } = req.body
+
+                        logic.authenticateUser(email, password)
+                            .then((userId, role) => {
+                                const token = jwt.sign({ sub: userId, role }, JWT_SECRET, { expiresIn: '1h' })
+
+                                res.status(200).json(token)
+                            })
+                            .catch(error => {
+                                let status = 500
+
+                                if (error instanceof MatchError)
+                                    status = 401
+
+                                res.status(status).json({ error: error.constructor.name, message: error.message })
+                            })
+
+                    } catch (error) {
+                        let status = 500
+
+                        if (error instanceof ContentError || error instanceof RangeError || error instanceof TypeError)
+                            status = 400
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
+                    }
+                })
+            })
+
         })
+        server.listen(PORT, () => console.log('API started'))
     })
+    .catch(error => console.error(error))

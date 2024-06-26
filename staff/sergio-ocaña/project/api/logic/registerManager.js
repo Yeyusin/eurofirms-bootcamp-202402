@@ -12,9 +12,9 @@ function registerManager(name, birthdate, email, password) {
     return User.findOne({ email })
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
-            if (user) throw new DuplicityError
+            if (user) throw new DuplicityError('email already exist')
 
-            user = { name, birthdate, email, password, role: manager }
+            user = { name, birthdate, email, password, role: 'manager' }
 
             return User.create(user)
                 .catch(error => { throw new SystemError(error.message) })
