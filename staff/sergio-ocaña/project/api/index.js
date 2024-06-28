@@ -11,8 +11,6 @@ dotenv.config()
 const { MatchError, ContentError, DuplicityError } = errors
 const { PORT, MONGO_URL, JWT_SECRET } = process.env
 
-mongoose.set('debug', true)
-
 mongoose.connect(MONGO_URL)
     .then(() => {
         console.log('DB conected')
