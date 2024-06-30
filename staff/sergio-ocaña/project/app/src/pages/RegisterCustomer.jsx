@@ -1,8 +1,25 @@
 import { Button, LabelInput, Form, HTag } from '../components'
 import logic from '../logic'
+import { errors } from 'com'
+
+const { DuplicityError, ContentError } = errors
 
 
 function RegisterCustomer({ onUserRegistered, onLoginClick }) {
+    const errorHandler = error => {
+        console.error(error)
+
+        let feedback = error.message
+
+        if (error instanceof TypeError || error instanceof RangeError || error instanceof ContentError)
+            feedback = `${feedback}, please correct it`
+
+        else if (error instanceof DuplicityError)
+            feedback = `${feedback}, please try to relog again`
+
+        else feedback = 'sorry, there was an error, please try again later'
+    }
+
     const handleLoginButton = () => {
         onLoginClick()
     }
@@ -20,15 +37,11 @@ function RegisterCustomer({ onUserRegistered, onLoginClick }) {
             logic.registerCustomer(name, birthdate, email, password)
                 .then(() => onUserRegistered())
                 .catch(error => {
-                    console.error(error)
-
-                    alert(error.message)
+                    errorHandler(error)
                 })
         }
         catch (error) {
-            console.error(error)
-
-            alert(error.message)
+            errorHandler(error)
         }
     }
     return <>

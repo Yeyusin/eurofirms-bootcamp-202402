@@ -10,6 +10,7 @@ dotenv.config()
 
 const { MatchError, ContentError, DuplicityError } = errors
 const { PORT, MONGO_URL, JWT_SECRET } = process.env
+const { JsonWebTokenError, TokenExpiredError } = jwt
 
 mongoose.connect(MONGO_URL)
     .then(() => {
@@ -74,8 +75,8 @@ mongoose.connect(MONGO_URL)
                 const { email, password } = req.body
 
                 logic.authenticateUser(email, password)
-                    .then((userId, role) => {
-                        const token = jwt.sign({ sub: userId, role }, JWT_SECRET, { expiresIn: '1h' })
+                    .then(user => {
+                        const token = jwt.sign({ sub: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' })
 
                         res.status(200).json(token)
                     })
@@ -97,6 +98,41 @@ mongoose.connect(MONGO_URL)
                 res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
+
+        server.get('/users/:targetUserId', (req, res) => {
+            try {
+                const { authorization } = req.headers
+
+                const token = authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+                const { targetUserId } = req.params
+
+                logic.retrieveUser(userId, targetUserId)
+                    .then(user => res.json(user))
+                    .catch(error => {
+                        let status = 500
+
+                        if (error instanceof MatchError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
+                    })
+            } catch (error) {
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof RangeError || error instanceof ContentError)
+                    status = 400
+                else if (error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
+                    status = 401
+
+                    error = new MatchError(error.message)
+                }
+                res.status(status).json({ error: error.constructor.name, message: error.message })
+            }
+        })
+
         server.listen(PORT, () => console.log(`API started on port ${PORT}`))
     })
     .catch(error => console.error(error))

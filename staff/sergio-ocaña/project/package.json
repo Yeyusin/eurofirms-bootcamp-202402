@@ -1,11 +1,12 @@
 {
   "name": "proyect",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "workspaces": [
-    "api",
-    "app"
+    "app",
+    "api"
   ],
   "directories": {
     "doc": "doc"
@@ -14,10 +15,13 @@
     "app": "npm run dev --workspace=app",
     "api": "npm run dev --workspace=api",
     "inspect": "npm run inspect --workspace=api",
-    "start": "npm run dev --workspaces",
+    "start": "npm start --workspaces",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "com": "file:com"
+  }
 }
