@@ -25,10 +25,6 @@ function deleteCinemaToManager(userId, cinemaId) {
                     return User.findByIdAndUpdate(userId, { $unset: { cinema } })
 
                 })
-
-
         })
-
-
 }
 export default deleteCinemaToManager
