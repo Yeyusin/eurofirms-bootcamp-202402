@@ -78,22 +78,35 @@ function validateText(text) {
     if (!text.length) throw new ContentError('text is empty')
 }
 
-function validateToken(token, explain = 'token') {
-    if (typeof token !== 'string') throw new TypeError(`${explain} is not a string`)
+function validateToken(token, explain = 'customer') {
+    if (typeof token !== 'string') throw new TypeError('token is not a string')
 
-    if (!token.length) throw new ContentError(`${explain} is empty`)
+    if (!token.length) throw new ContentError('token is empty')
 
     const [, payload64,] = token.split('.')
     const payloadJSON = atob(payload64)
     const payload = JSON.parse(payloadJSON)
 
-    const { exp } = payload
+    const { exp, role } = payload
 
     const now = Date.now() / 1000
 
-    if (exp < now) throw new MatchError(`${explain} expired`)
+    if (exp < now) throw new MatchError('token expired')
+
+    if (role !== explain) throw new MatchError(`wrong role only ${explain} could do`)
 
 }
+
+function validateTemperature(temperature, explain = 'temperature') {
+    if (typeof temperature !== 'string') throw new TypeError(`${explain} is not a string`)
+
+    const temp = Number(temperature)
+
+    if (temperature > 55) throw new RangeError(`${explain} your room is not viable to show films, cold it first`)
+
+    if (temperature < 0) throw new RangeError(`${explain} your room is not viable to show films, heater it first`)
+}
+
 
 const validate = {
     name: validateName,
@@ -102,6 +115,7 @@ const validate = {
     password: validatePassword,
     id: validateId,
     text: validateText,
-    token: validateToken
+    token: validateToken,
+    temperature: validateTemperature
 }
 export default validate

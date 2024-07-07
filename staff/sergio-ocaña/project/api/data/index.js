@@ -47,11 +47,27 @@ const user = new Schema({
     }
 
 })
+const room = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    cinema: {
+        type: ObjectId,
+        ref: 'Cinema'
+    },
+    temperature: {
+        type: String,
+        required: true,
+    }
+})
 
+const Room = model('Room', room)
 const Cinema = model('Cinema', cinema)
 const User = model('User', user)
 
 export {
     Cinema,
-    User
+    User,
+    Room
 }

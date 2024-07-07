@@ -1,0 +1,1 @@
+curl -X POST -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdkNjkyNWZjOWUyNjQyZWJmNTI1ODEiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMDE5OTI5Mn0.M6YzEWvz79TTmzgo1jGGEuGjSPygihLoFMGR5Dqpx1g' -H 'Content-Type: application/json' -d '{"name":"cucarachacha","address":"c/bolivar numero 3"}' http://localhost:8080/cinema -v

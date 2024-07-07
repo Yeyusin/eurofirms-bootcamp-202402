@@ -174,7 +174,7 @@ mongoose.connect(MONGO_URL)
             }
         })
 
-        server.delete('cinema/delete/:cinemaId', (req, res) => {
+        server.delete('/cinema/:cinemaId/delete', (req, res) => {
             try {
                 const { authorization } = req.headers
 
@@ -182,7 +182,7 @@ mongoose.connect(MONGO_URL)
 
                 const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-                const cinemaId = req.params
+                const { cinemaId } = req.params
 
                 logic.deleteCinema(userId, cinemaId)
                     .then(() => res.status(204).send())
@@ -210,13 +210,13 @@ mongoose.connect(MONGO_URL)
             }
         })
 
-        server.patch('users/:cinemaId', (req, res) => {
+        server.patch('/users/:cinemaId', (req, res) => {
             try {
                 const { authorization } = req.headers
 
                 const token = authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token)
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
                 const { cinemaId } = req.params
 
@@ -244,7 +244,7 @@ mongoose.connect(MONGO_URL)
             }
         })
 
-        server.delete('users/:cinemaId/delete', (req, res) => {
+        server.delete('/users/:cinemaId/delete', (req, res) => {
             try {
                 const { authorization } = req.headers
 
@@ -277,7 +277,6 @@ mongoose.connect(MONGO_URL)
                 res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
-
         server.listen(PORT, () => console.log(`API started on port ${PORT}`))
     })
     .catch(error => console.error(error))
