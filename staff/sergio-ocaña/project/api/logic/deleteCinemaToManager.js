@@ -4,9 +4,10 @@ import { validate, errors } from 'com'
 
 const { SystemError, MatchError } = errors
 
-function deleteCinemaToManager(userId, cinemaId) {
+function deleteCinemaToManager(userId, cinemaId, role) {
     validate.id(userId)
     validate.id(cinemaId, 'cinemaId')
+    validate.role(role)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })

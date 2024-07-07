@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-import registerManager from './registerManager.js'
+import retrieveCinemas from './retrieveCinemas.js'
 
 mongoose.connect('mongodb://localhost:27017/project')
     .then(() => {
         try {
-            registerManager('Bebe Jefazo', '2000-01-01', 'bebejefazo@gmail.com', '12341234')
+            retrieveCinemas('667d6925fc9e2642ebf52581')
                 .catch(error => console.error(error))
-                .then(() => console.log('manager created'))
+                .then((cinemas) => console.log(cinemas))
         } catch (error) {
             console.error(error)
         }

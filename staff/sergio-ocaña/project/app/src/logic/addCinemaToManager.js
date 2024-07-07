@@ -2,19 +2,17 @@ import { validate, errors } from 'com'
 
 const { SystemError } = errors
 
-function createCinema(name, address) {
+function addCinemaToManager(cinemaId) {
     validate.token(sessionStorage.token, 'manager')
-    validate.name(name)
-    validate.name(address)
+    validate.id(cinemaId, 'cinemaId')
 
-    return fetch(`${import.meta.env.VITE_API_URL}/cinema`, {
-        method: 'POST',
-        headers: { 'Content/type': 'application/json', authorization: `Bearer ${sessionStorage.token}` },
-        body: JSON.stringify({ name, address })
+    return fetch(`${import.meta.env.VITE_API_URL}/users/${cinemaId}`, {
+        method: 'PATCH',
+        headers: { authorization: `Bearer ${sessionStorage.token}` },
     })
         .catch(error => { throw new SystemError(error.message) })
         .then(res => {
-            if (res.status === 201) return
+            if (res.status === 200) return
 
             return res.json()
                 .catch(error => { throw new SystemError(error.message) })
@@ -27,4 +25,4 @@ function createCinema(name, address) {
                 })
         })
 }
-export default createCinema
+export default addCinemaToManager

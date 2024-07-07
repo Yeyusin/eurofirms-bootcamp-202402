@@ -96,6 +96,13 @@ function validateToken(token, explain = 'customer') {
     if (role !== explain) throw new MatchError(`wrong role only ${explain} could do`)
 
 }
+function validateRole(role, explain = 'manager') {
+    if (typeof role !== 'string') throw new TypeError('role is not a string')
+
+    if (!role.length) throw new ContentError('role is empty')
+
+    if (role !== explain) throw new MatchError(`You are not ${explain}`)
+}
 
 function validateTemperature(temperature, explain = 'temperature') {
     if (typeof temperature !== 'string') throw new TypeError(`${explain} is not a string`)
@@ -116,6 +123,7 @@ const validate = {
     id: validateId,
     text: validateText,
     token: validateToken,
-    temperature: validateTemperature
+    temperature: validateTemperature,
+    role: validateRole
 }
 export default validate

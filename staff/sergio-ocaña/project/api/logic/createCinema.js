@@ -7,6 +7,8 @@ const { MatchError, SystemError, DuplicityError } = errors
 function createCinema(userId, name, address) {
     validate.id(userId)
     validate.name(name)
+    validate.name(address)
+
 
 
     return User.findById(userId)

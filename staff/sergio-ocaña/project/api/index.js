@@ -173,6 +173,40 @@ mongoose.connect(MONGO_URL)
                 res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
+        server.get('/cinemas', (req, res) => {
+            try {
+                const { authorization } = req.headers
+
+                const token = authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+                logic.retrieveCinemas(userId)
+                    .then((cinemas) => res.json(cinemas))
+                    .catch(error => {
+                        let status = 500
+
+                        if (error instanceof MatchError)
+                            status = 401
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
+                    })
+
+            } catch (error) {
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof RangeError || error instanceof ContentError)
+                    status = 400
+
+                else if (error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
+                    status = 401
+
+                    error = new MatchError(error.message)
+
+                }
+                res.status(status).json({ error: error.constructor.name, message: error.message })
+            }
+        })
 
         server.delete('/cinema/:cinemaId/delete', (req, res) => {
             try {
@@ -244,7 +278,7 @@ mongoose.connect(MONGO_URL)
             }
         })
 
-        server.delete('/users/:cinemaId/delete', (req, res) => {
+        server.patch('/users/:cinemaId/delete', (req, res) => {
             try {
                 const { authorization } = req.headers
 

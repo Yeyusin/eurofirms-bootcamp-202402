@@ -6,6 +6,7 @@ import registerManager from './registerManager.js'
 import retrieveUser from './retrieveUser.js'
 import deleteCinema from './deleteCinema.js'
 import deleteCinemaToManager from './deleteCinemaToManager.js'
+import retrieveCinemas from './retrieveCinemas.js'
 
 const logic = {
     authenticateUser,
@@ -16,6 +17,7 @@ const logic = {
     createCinema,
     deleteCinema,
     deleteCinemaToManager,
+    retrieveCinemas,
 }
 
 export default logic 
