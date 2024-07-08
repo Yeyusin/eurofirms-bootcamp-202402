@@ -4,6 +4,7 @@ import loginUser from './loginUser'
 import isUserLoggedIn from './isUserLoggedIn'
 import logoutUser from './logoutUser'
 import retrieveUser from './retrieveUser'
+import IsManagerUserLoggedIn from './IsManagerUserLoggedIn'
 
 const logic = {
     registerCustomer,
@@ -12,7 +13,7 @@ const logic = {
     retrieveUser,
     isUserLoggedIn,
     logoutUser,
-
+    IsManagerUserLoggedIn,
 }
 
 export default logic
