@@ -4,7 +4,11 @@ export default {
     "./index.html",
     "./src/**/*.jsx"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'happy faces': "url('src/img/')",
+      }
+    },
   },
   plugins: [],
 }

@@ -5,6 +5,11 @@ import isUserLoggedIn from './isUserLoggedIn'
 import logoutUser from './logoutUser'
 import retrieveUser from './retrieveUser'
 import IsManagerUserLoggedIn from './IsManagerUserLoggedIn'
+import retrieveCinemas from './retrieveCinemas'
+import addCinemaToManager from './addCinemaToManager'
+import deleteCinemaToManager from './deleteCinemaToManager'
+import deleteCinema from './deleteCinema'
+import createCinema from './createCinema'
 
 const logic = {
     registerCustomer,
@@ -14,6 +19,11 @@ const logic = {
     isUserLoggedIn,
     logoutUser,
     IsManagerUserLoggedIn,
+    retrieveCinemas,
+    createCinema,
+    addCinemaToManager,
+    deleteCinemaToManager,
+    deleteCinema,
 }
 
 export default logic

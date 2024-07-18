@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { HTag, Button } from '../components'
 import logic from '../logic'
 import { errors } from 'com'
+import Cinema from '../components/Cinema'
 
 const { TypeError, MatchError, ContentError } = errors
 
 
 function Home({ onLogoutClick }) {
     const [user, setUser] = useState(null)
+
 
     const errorHandler = error => {
         console.error(error)
@@ -52,7 +54,7 @@ function Home({ onLogoutClick }) {
             <Button onClick={handleLogoutButton}>🚪</Button>
         </header>
 
-        {user && logic.IsManagerUserLoggedIn && <ManagerHome />}
+        {user && logic.IsManagerUserLoggedIn && user.cinema ? <Cinema cimemaId={user.cinema} /> : <CreateCinemaForm />}
         {user && !logic.IsManagerUserLoggedIn && <CustomerHome />}
 
         <footer className="flex justify-center border-t-2 border-black fixed bottom-0 w-full bg-white h-8 px-2 box-border">
