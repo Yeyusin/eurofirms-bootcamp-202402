@@ -27,14 +27,13 @@ function Cinema({ cinemaId }) {
         } catch (error) {
             errorHandler(error)
         }
-
     })
 
     return <>
-        <HTag>{cinema.name}</HTag>
+        <HTag>{cinema?.name}</HTag>
         <Form>
             <ul>
-                {rooms.forEach(room => {
+                {rooms?.forEach(room => {
                     <li key={room.id}>{room.name}</li>
 
                 })}

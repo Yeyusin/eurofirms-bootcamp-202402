@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Button } from './index.js'
+import { Button, HTag } from './index.js'
 import logic from '../logic'
+import { errors } from 'com'
+import FormCreateCinema from './FormCreateCinema.jsx'
 
-function FormCinema() {
+const { ContentError, MatchError } = errors
+
+function FormCinema({ onAsignedCinema }) {
     const [cinemas, setCinemas] = useState(null)
     const [selectedCinema, setSelectedCinema] = useState(null)
     const [timeStamp, setTimeStamp] = useState(Date.now())
+    const [showFormCreateCinema, setFormCreateCinema] = useState(0)
 
     const errorHandler = error => {
         console.error(error)
@@ -31,37 +36,52 @@ function FormCinema() {
         }
     }, [timeStamp])
 
-    const selectCinema = (CinemaId) => setSelectedCinema(CinemaId)
+    const selectCinema = (cinemaId) => setSelectedCinema(cinemaId)
 
     const unselectCinema = () => setSelectedCinema(null)
 
     const handleAsignCinema = (cinemaId) => {
         try {
             logic.addCinemaToManager(cinemaId)
-                .then(() => setTimeStamp(Date.now()))
+                .then(() => onAsignedCinema())
                 .catch(error => errorHandler(error))
         } catch (error) {
             errorHandler()
         }
     }
+    const handleCancelButton = () => setFormCreateCinema(0)
 
-    const handleCreateCinemaClick = () => { JSON }
+    const handleCreateCinemaClick = () => {
+        setFormCreateCinema(1)
+    }
+
+    const handleCreatedCinema = () => {
+        setTimeStamp(Date.now())
+        setFormCreateCinema(0)
+    }
 
     return <>
         <HTag>Select Cinema</HTag>
         <ul>
-            {cinemas.forEach(cinema => {
+            {cinemas ? cinemas.map(cinema => {
                 const isCinemaSelected = selectedCinema === cinema.id
 
-                isCinemaSelected ? <li className='bg-sky-500' onClick={() => selectCinema(cinema.id)} key={cinema.id}>{cinema.name}</li> :
-                    <li className='bg-white' onClick={unselectCinema} key={cinema.id}>{cinema.name}</li>
+                return (
+                    <li
+                        className={`flex cursor-pointer ${isCinemaSelected ? 'text-gray-100' : 'text-blue-300'}`}
+                        onClick={() => isCinemaSelected ? unselectCinema() : () => selectCinema(cinema.id)} key={cinema.id}>
+                        {cinema.name}
+                    </li>
+                )
+            }) : <p>Loading...</p>}
+            {cinemas?.length === 0 && <p> Create your first cinema </p>}
 
-            })}
-            <div className='flex'>
+            <div className='flex justify-around space between '>
                 <Button onClick={handleCreateCinemaClick}>New Cinema</Button>
                 <Button onClick={() => handleAsignCinema(selectedCinema)}>Asign Cinema</Button>
             </div>
         </ul>
+        {showFormCreateCinema === 1 && <FormCreateCinema onCancelClick={handleCancelButton} onCreatedCinema={handleCreatedCinema} />}
     </>
 }
 export default FormCinema

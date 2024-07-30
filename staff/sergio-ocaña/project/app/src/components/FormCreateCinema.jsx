@@ -1,7 +1,10 @@
-import logic from "../logic"
-import { Button, Form, LabelInput } from './index.js'
+import logic from '../logic'
+import { Button, Form, LabelInput, HTag } from './index.js'
+import { errors } from 'com'
 
-function FormCreateCinema(onCancelClick, onCreatedCinema) {
+const { ContentError, MatchError } = errors
+
+function FormCreateCinema({ onCancelClick, onCreatedCinema }) {
     const errorHandler = error => {
         console.error(error)
 
@@ -36,7 +39,7 @@ function FormCreateCinema(onCancelClick, onCreatedCinema) {
             errorHandler(error)
         }
     }
-    return <>
+    return <div>
         <HTag> Create cinema </HTag>
 
         <Form onSubmit={handleSubmit}>
@@ -47,7 +50,7 @@ function FormCreateCinema(onCancelClick, onCreatedCinema) {
 
             <Button type="button" onClick={handleCancelButton}> Cancel </Button>
         </Form>
-    </>
+    </div>
 }
 
 export default FormCreateCinema

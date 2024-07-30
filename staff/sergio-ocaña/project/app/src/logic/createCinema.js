@@ -9,7 +9,7 @@ function createCinema(name, address) {
 
     return fetch(`${import.meta.env.VITE_API_URL}/cinema`, {
         method: 'POST',
-        headers: { 'Content/type': 'application/json', authorization: `Bearer ${sessionStorage.token}` },
+        headers: { 'Content-Type': 'application/json', authorization: `Bearer ${sessionStorage.token}` },
         body: JSON.stringify({ name, address })
     })
         .catch(error => { throw new SystemError(error.message) })

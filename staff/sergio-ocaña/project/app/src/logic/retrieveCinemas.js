@@ -4,7 +4,6 @@ const { SystemError } = errors
 
 function retrieveCinemas() {
     validate.token(sessionStorage.token, 'manager')
-    validate.id(cinemaId, 'cinemaId')
 
     return fetch(`${import.meta.env.VITE_API_URL}/cinemas`, {
         method: 'GET',

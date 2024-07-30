@@ -12,7 +12,7 @@ function retrieveUser(userId, targetUserId) {
         .then(user => {
             if (!user) throw new MatchError('user not found')
 
-            return User.findById(targetUserId).select('-_id name').lean()
+            return User.findById(targetUserId).select('-_id name role cinema').lean()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(targetUser => {
                     if (!targetUser) throw new MatchError('targetUser not found')
