@@ -17,6 +17,8 @@ function retrieveUser(userId, targetUserId) {
                 .then(targetUser => {
                     if (!targetUser) throw new MatchError('targetUser not found')
 
+                    targetUser.cinema = targetUser.cinema.toString()
+
                     return targetUser
                 })
         })

@@ -3,7 +3,8 @@ import logic from '../logic'
 import { HTag, Form } from './index.js'
 
 function Cinema({ cinemaId }) {
-    const [cinema, setCinema] = useState(null)
+    const [name, setName] = useState(null)
+    const [rooms, setRooms] = useState(null)
 
     const errorHandler = error => {
         console.error(error)
@@ -23,14 +24,18 @@ function Cinema({ cinemaId }) {
         try {
             logic.retrieveCinema(cinemaId)
                 .catch(error => errorHandler(error))
-                .then((cinema => setCinema(cinema)))
+                .then((cinema => {
+                    const { name } = cinema
+                    setName(name)
+                }))
         } catch (error) {
             errorHandler(error)
         }
     })
 
+
     return <>
-        <HTag>{cinema?.name}</HTag>
+        {name ? <HTag>{name}</HTag> : <p>Loading....</p>}
         <Form>
             <ul>
                 {rooms?.forEach(room => {

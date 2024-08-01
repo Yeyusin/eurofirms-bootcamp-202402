@@ -7,6 +7,11 @@ import retrieveUser from './retrieveUser.js'
 import deleteCinema from './deleteCinema.js'
 import deleteCinemaToManager from './deleteCinemaToManager.js'
 import retrieveCinemas from './retrieveCinemas.js'
+import retrieveCinema from './retrieveCinema.js'
+import createRoom from './createRoom.js'
+import updateRoom from './updateRoom.js'
+import deleteRoom from './deleteRoom.js'
+import retrieveRoomsFromCinema from './retrieveRoomsFromCinema.js'
 
 const logic = {
     authenticateUser,
@@ -18,6 +23,11 @@ const logic = {
     deleteCinema,
     deleteCinemaToManager,
     retrieveCinemas,
+    retrieveCinema,
+    createRoom,
+    updateRoom,
+    deleteRoom,
+    retrieveRoomsFromCinema,
 }
 
 export default logic 

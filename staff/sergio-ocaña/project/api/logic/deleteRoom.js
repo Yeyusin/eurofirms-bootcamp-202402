@@ -2,20 +2,19 @@ import { User, Cinema, Room } from '../data/index.js'
 
 import { validate, errors } from 'com'
 
-const { SystemError, MatchError, DuplicityError } = errors
+const { SystemError, MatchError } = errors
 
-function createRoom(userId, cinemaId, name, temperature) {
+function deleteRoom(userId, cinemaId, roomId) {
     validate.id(userId)
     validate.id(cinemaId, 'cinemaId')
-    validate.name(name)
-    validate.temperature(temperature)
+    validate.id(roomId, 'roomId')
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
             if (!user) throw new MatchError('User not found')
 
-            if (!user.cinema) throw new MatchError('You need asign a cinema first, so you can edit it')
+            if (!user.cinema) throw new MatchError('You need asign a cinema first, after that you could edit it')
 
             return Cinema.findById(cinemaId)
                 .catch(error => { throw new SystemError(error.message) })
@@ -24,14 +23,14 @@ function createRoom(userId, cinemaId, name, temperature) {
 
                     if (cinemaId !== user.cinema.toString()) throw new MatchError('You can only modify your own cinema')
 
-                    return Room.findOne({ $and: [{ name }, { cinema: cinemaId }] })
+                    return Room.findById(roomId)
                         .catch(error => { throw new SystemError(error.message) })
                         .then(room => {
-                            if (room) throw new DuplicityError('You have another room with the same name')
+                            if (!room) throw new MatchError('Room not found')
 
-                            const newRoom = { name, temperature, cinema: cinemaId }
+                            if (room.cinema.toString() !== cinemaId) throw new MatchError('You can only delete rooms from your own cinema')
 
-                            return Room.create(newRoom)
+                            return Room.findByIdAndDelete(roomId)
                                 .catch(error => { throw new SystemError(error.message) })
                                 .then(room => { })
                         })
@@ -39,4 +38,4 @@ function createRoom(userId, cinemaId, name, temperature) {
                 })
         })
 }
-export default createRoom
+export default deleteRoom

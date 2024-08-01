@@ -13,18 +13,12 @@ function retrieveCinema(userId, cinemaId) {
         .then(user => {
             if (!user) throw new MatchError('user not found')
 
-            return Cinema.findById(cinemaId).select('-__v').lean()
+            return Cinema.findById(cinemaId).select('-_id name').lean()
                 .catch(error => { throw SystemError(error.message) })
                 .then(cinema => {
                     if (!cinema) throw new MatchError('Cinema not found')
 
-                    if (cinema._id) {
-                        cinema.id = cinema._id.toString()
-
-                        delete cinema._id
-                    }
                     return cinema
-
                 })
         })
 }

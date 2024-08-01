@@ -2,13 +2,11 @@ import { User, Cinema, Room } from '../data/index.js'
 
 import { validate, errors } from 'com'
 
-const { SystemError, MatchError, DuplicityError } = errors
+const { SystemError, MatchError } = errors
 
-function createRoom(userId, cinemaId, name, temperature) {
+function retrieveRoomsFromCinema(userId, cinemaId) {
     validate.id(userId)
     validate.id(cinemaId, 'cinemaId')
-    validate.name(name)
-    validate.temperature(temperature)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -24,19 +22,24 @@ function createRoom(userId, cinemaId, name, temperature) {
 
                     if (cinemaId !== user.cinema.toString()) throw new MatchError('You can only modify your own cinema')
 
-                    return Room.findOne({ $and: [{ name }, { cinema: cinemaId }] })
+                    return Room.find({ cinema: cinemaId }).select('-__v').sort({ name: 1 }).lean()
                         .catch(error => { throw new SystemError(error.message) })
-                        .then(room => {
-                            if (room) throw new DuplicityError('You have another room with the same name')
+                        .then(rooms => {
+                            rooms.forEach(room => {
+                                if (room._id) {
+                                    room.id = room._id.toString()
 
-                            const newRoom = { name, temperature, cinema: cinemaId }
+                                    delete room._id
+                                }
+                                if (typeof room.cinema !== 'string')
+                                    room.cinema = room.cinema.toString()
+                            })
 
-                            return Room.create(newRoom)
-                                .catch(error => { throw new SystemError(error.message) })
-                                .then(room => { })
+                            return rooms
                         })
 
                 })
         })
 }
-export default createRoom
+
+export default retrieveRoomsFromCinema

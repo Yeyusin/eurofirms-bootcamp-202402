@@ -66,7 +66,7 @@ function Home({ onLogoutClick }) {
         </header>
 
         <main className='flex flex-col my-14'>
-            {user && logic.IsManagerUserLoggedIn() && user.cinema && <Cinema cimemaId={user.cinema} />}
+            {user && logic.IsManagerUserLoggedIn() && user.cinema && <Cinema cinemaId={user.cinema} />}
             {showFormCinema === 1 && !user?.cinema && <FormCinema onAsignedCinema={handleAsignedCinema} />}
             {user && !logic.IsManagerUserLoggedIn() && <p>Customer</p>}
         </main>

@@ -1,4 +1,4 @@
-import { Cinema, User } from '../data/index.js'
+import { Cinema, User, Room } from '../data/index.js'
 import { validate, errors } from 'com'
 
 const { MatchError, SystemError } = errors
@@ -24,6 +24,12 @@ function deleteCinema(userId, cinemaId) {
                         .catch(error => { throw SystemError(error.message) })
                         .then(() => {
                             return User.updateMany({ cinema: cinemaId }, { $unset: { cinema } })
+                                .catch(error => { throw SystemError(error.message) })
+                        })
+                        .then(() => {
+                            return Room.deleteMany({ cinema: cinemaId })
+                                .catch(error => { throw SystemError(error.message) })
+                                .then(() => { })
                         })
                 })
         })

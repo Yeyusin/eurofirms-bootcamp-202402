@@ -2,11 +2,12 @@ import { User, Cinema, Room } from '../data/index.js'
 
 import { validate, errors } from 'com'
 
-const { SystemError, MatchError, DuplicityError } = errors
+const { SystemError, MatchError } = errors
 
-function createRoom(userId, cinemaId, name, temperature) {
+function updateRoom(userId, cinemaId, roomId, name, temperature) {
     validate.id(userId)
     validate.id(cinemaId, 'cinemaId')
+    validate.id(roomId, 'roomId')
     validate.name(name)
     validate.temperature(temperature)
 
@@ -24,14 +25,20 @@ function createRoom(userId, cinemaId, name, temperature) {
 
                     if (cinemaId !== user.cinema.toString()) throw new MatchError('You can only modify your own cinema')
 
-                    return Room.findOne({ $and: [{ name }, { cinema: cinemaId }] })
+                    return Room.findById(roomId)
                         .catch(error => { throw new SystemError(error.message) })
                         .then(room => {
-                            if (room) throw new DuplicityError('You have another room with the same name')
+                            if (!room) throw new MatchError('Room not found')
 
-                            const newRoom = { name, temperature, cinema: cinemaId }
+                            if (room.cinema.toString() !== cinemaId) throw new MatchError('You can only delete rooms from your own cinema')
 
-                            return Room.create(newRoom)
+                            if (room.name !== name)
+                                room.name = name
+
+                            if (room.temperature !== temperature)
+                                room.temperature = temperature
+
+                            return room.save()
                                 .catch(error => { throw new SystemError(error.message) })
                                 .then(room => { })
                         })
@@ -39,4 +46,4 @@ function createRoom(userId, cinemaId, name, temperature) {
                 })
         })
 }
-export default createRoom
+export default updateRoom

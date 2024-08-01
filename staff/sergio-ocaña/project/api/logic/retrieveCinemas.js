@@ -12,7 +12,7 @@ function retrieveCinemas(userId) {
         .then(user => {
             if (!user) throw new MatchError('user not found')
 
-            return Cinema.find().select('-__v').lean()
+            return Cinema.find().sort({ name: 1 }).select('-__v').lean()
                 .catch(error => { throw SystemError(error.message) })
                 .then(cinemas => {
                     cinemas.forEach(cinema => {
