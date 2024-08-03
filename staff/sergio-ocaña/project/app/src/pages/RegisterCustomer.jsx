@@ -54,7 +54,7 @@ function RegisterCustomer({ onUserRegistered, onLoginClick }) {
                 <LabelInput text='E-mail' id='email' />
                 <LabelInput text='Password' type='password' id='password' />
 
-                <Button type='submit' onSubmit={handleSubmit}> Register </Button>
+                <Button type='submit' > Register </Button>
 
                 <Button type='button' onClick={handleLoginButton}> Login </Button>
             </Form>

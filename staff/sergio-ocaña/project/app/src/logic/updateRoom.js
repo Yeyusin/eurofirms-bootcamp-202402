@@ -2,12 +2,15 @@ import { errors, validate } from 'com'
 
 const { SystemError } = errors
 
-function updateRoom(cinemaId, name, temperature) {
+function updateRoom(cinemaId, roomId, name, temperature) {
     validate.token(sessionStorage.token)
+    validate.id(cinemaId, 'cinemaId')
+    validate.id(roomId, 'roomId')
     validate.name(name)
     validate.temperature(temperature)
 
-    return fetch(`${import.meta.env.VITE_API_URL}/rooms/${cinemaId}`, {
+
+    return fetch(`${import.meta.env.VITE_API_URL}/rooms/${cinemaId}/${roomId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.token}` },
         body: JSON.stringify({ name, temperature })

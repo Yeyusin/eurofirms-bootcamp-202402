@@ -8,9 +8,9 @@ function deleteRoom(cinemaId, roomId) {
     validate.id(roomId, 'roomId')
 
     return fetch(`${import.meta.env.VITE_API_URL}/rooms/${cinemaId}/${roomId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.token}` },
-        body: JSON.stringify({ name, temperature })
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${sessionStorage.token}` },
+
     })
         .catch(error => { throw new SystemError(error.message) })
         .then(res => {

@@ -53,7 +53,7 @@ function RegisterManager({ onUserRegistered, onLoginClick }) {
             <LabelInput text='E-mail' id='email' />
             <LabelInput text='Password' type='password' id='password' />
             <div className='flex justify-between'>
-                <Button type='submit' className='px-2 m-2' onSubmit={handleSubmit}> Register </Button>
+                <Button type='submit' className='px-2 m-2' > Register </Button>
 
                 <Button type='button' className='px-2 m-2' onClick={handleLoginButton}> Login </Button>
 

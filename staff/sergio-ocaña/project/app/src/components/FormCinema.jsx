@@ -69,7 +69,7 @@ function FormCinema({ onAsignedCinema }) {
                 return (
                     <li
                         className={`flex cursor-pointer ${isCinemaSelected ? 'text-gray-100' : 'text-blue-300'}`}
-                        onClick={() => isCinemaSelected ? unselectCinema() : () => selectCinema(cinema.id)} key={cinema.id}>
+                        onClick={() => isCinemaSelected ? unselectCinema() : selectCinema(cinema.id)} key={cinema.id}>
                         {cinema.name}
                     </li>
                 )
