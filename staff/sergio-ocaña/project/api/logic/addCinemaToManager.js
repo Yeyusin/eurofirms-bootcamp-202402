@@ -13,7 +13,7 @@ function addCinemaToManager(userId, cinemaId) {
         .then(user => {
             if (!user) throw new MatchError('user not found')
 
-            if (user.role !== 'manager') throw new MatchError('Only Managers are allowed could be assigned to a cinema')
+            if (user.role !== 'manager') throw new MatchError('Only Managers are allowed to be assigned to a cinema')
 
             if (user.cinema) throw new MatchError('You already have a Cinema. If you want to change it, delete it first')
 

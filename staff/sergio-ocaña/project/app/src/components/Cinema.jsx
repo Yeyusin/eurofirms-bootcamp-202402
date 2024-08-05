@@ -141,8 +141,8 @@ function Cinema({ cinemaId }) {
                     onCancelButtonEdit={handleCancelButtonEdit}
                     onTemperatureClick={handleTemperatureClick}
                     onNameClick={handleNameClick}
-                    updateRoomName={(roomId, name, temperature) => handleClickUpdateName(roomId, name, temperature)}
-                    updateRoomTemp={(roomId, name, temperature) => handleClickUpdateTemp(roomId, name, temperature)} />
+                    updateRoomName={handleClickUpdateName}
+                    updateRoomTemp={handleClickUpdateTemp} />
             )}
             {rooms?.length === 0 && <p> Create your first room </p>}
             {(isClicked?.value === createValue) ?

@@ -18,12 +18,16 @@ function updateRoom(userId, cinemaId, roomId, name, temperature) {
 
             if (!user.cinema) throw new MatchError('You need asign a cinema first, so you can edit it')
 
+            if (user.role !== 'manager') throw new MatchError('You don t have privileges to edit the room')
+
             return Cinema.findById(cinemaId)
                 .catch(error => { throw new SystemError(error.message) })
                 .then(cinema => {
                     if (!cinema) throw new MatchError('Cinema not found')
 
                     if (cinemaId !== user.cinema.toString()) throw new MatchError('You can only modify your own cinema')
+
+                    if (user.role !== 'manager') throw new MatchError('You don t have privileges')
 
                     return Room.findById(roomId)
                         .catch(error => { throw new SystemError(error.message) })

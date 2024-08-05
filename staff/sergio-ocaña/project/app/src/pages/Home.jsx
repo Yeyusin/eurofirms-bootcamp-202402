@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { HTag, Button } from '../components'
+import { HTag, Button, Header } from '../components'
 import logic from '../logic'
 import { errors } from 'com'
 import Cinema from '../components/Cinema'
 import FormCinema from '../components/FormCinema'
 
 const { TypeError, MatchError, ContentError } = errors
-
 
 function Home({ onLogoutClick }) {
     const [user, setUser] = useState(null)
@@ -50,20 +49,18 @@ function Home({ onLogoutClick }) {
         onLogoutClick()
     }
 
-    const handleHomeButton = () => { }
-
     const handleAsignedCinema = () => {
         setFormCinema(0)
         setTimeStamp(Date.now())
     }
 
     return <>
-        <header className='flex flex-nowrap justify-center border-b-2 border-black fixed top-0 w-full bg-yellow-200 h-12 px-3 py-3 box-border'>
+        <Header>
             {!user && <p> Loading... </p>}
             {user && <HTag className='flex flex-nowrap'>{`Welcome to Happy People, ${user.name}`}</HTag>}
 
             <Button onClick={handleLogoutButton}>🚪</Button>
-        </header>
+        </Header>
 
         <main className='flex flex-col my-14'>
             {user && logic.IsManagerUserLoggedIn() && user.cinema && <Cinema cinemaId={user.cinema} />}
@@ -71,11 +68,6 @@ function Home({ onLogoutClick }) {
             {user && !logic.IsManagerUserLoggedIn() && <p>Customer</p>}
         </main>
 
-        <footer className="flex justify-center border-t-2 border-black fixed bottom-0 w-full bg-white h-8 px-2 box-border">
-            <Button onClick={handleHomeButton}>🏚️</Button>
-            <Button >🎟️</Button>
-            <Button>☹️</Button>
-        </footer>
 
     </>
 }

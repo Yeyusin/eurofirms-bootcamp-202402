@@ -89,7 +89,7 @@ Issue
 - user(User.id)
 - description(string,required)
 - type(string,required,enum: temperature|sound|film|cleaning)
-- status(string, open|closed)
+- status(string,required, open|closed)
 - location (string, required)
 - ticket (Ticket.id,optional)
 - date(date, required)

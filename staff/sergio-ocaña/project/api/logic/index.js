@@ -12,6 +12,11 @@ import createRoom from './createRoom.js'
 import updateRoom from './updateRoom.js'
 import deleteRoom from './deleteRoom.js'
 import retrieveRoomsFromCinema from './retrieveRoomsFromCinema.js'
+import createIssue from './createIssue.js'
+import retrieveCinemaIssues from './retrieveCinemaIssues.js'
+import retrieveUserIssues from './retrieveUserIssues.js'
+import deleteIssue from './deleteIssue.js'
+import closeIssue from './closeIssue.js'
 
 const logic = {
     authenticateUser,
@@ -28,6 +33,11 @@ const logic = {
     updateRoom,
     deleteRoom,
     retrieveRoomsFromCinema,
+    createIssue,
+    retrieveCinemaIssues,
+    retrieveUserIssues,
+    closeIssue,
+    deleteIssue,
 }
 
 export default logic 

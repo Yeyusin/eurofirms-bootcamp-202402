@@ -13,8 +13,10 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof ContentError)
             feedback = `${feedback}, please correct it`
         else if (error instanceof MatchError)
-            feedback = `${feedback}, please try to relog again`
+            feedback = `${feedback}, verify credentials`
         else feedback = 'sorry, there was an error, please try again later'
+
+        alert(feedback)
     }
 
     const handleRegisterButton = () => {

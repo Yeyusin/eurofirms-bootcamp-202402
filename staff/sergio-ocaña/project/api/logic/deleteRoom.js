@@ -16,6 +16,8 @@ function deleteRoom(userId, cinemaId, roomId) {
 
             if (!user.cinema) throw new MatchError('You need asign a cinema first, after that you could edit it')
 
+            if (user.role !== 'manager') throw new MatchError('You don t have privileges')
+
             return Cinema.findById(cinemaId)
                 .catch(error => { throw new SystemError(error.message) })
                 .then(cinema => {

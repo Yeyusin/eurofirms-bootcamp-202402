@@ -69,7 +69,7 @@ function validateId(id, explain = 'userId') {
 
     if (!id.length) throw new ContentError(`${explain} is empty`)
 
-    if (id.length !== 24) throw new RangeError(`${explain}has not valid length`)
+    if (id.length !== 24) throw new RangeError(`${explain} has not valid length`)
 }
 
 function validateText(text) {
@@ -117,6 +117,23 @@ function validateTemperature(temperature, explain = 'temperature') {
     if (temperature < 0) throw new RangeError(`${explain} your room is not viable to show films, heater it first`)
 }
 
+function validateType(type) {
+    if (typeof type !== 'string') throw new TypeError('type is not a string')
+
+    if (!type.length) throw new ContentError('type is empty')
+
+    if (type == !'temperature' || type == ! 'sound' || type == !'film' || type == !'cleaning') throw new ContentError('is not a viable type')
+
+}
+
+function validateStatus(status) {
+    if (typeof status !== 'string') throw new TypeError('status is not a string')
+
+    if (!status.length) throw new ContentError('status is empty')
+
+    if (status == !'open' || status == ! 'close') throw new ContentError('is not a viable status')
+}
+
 
 const validate = {
     name: validateName,
@@ -127,6 +144,8 @@ const validate = {
     text: validateText,
     token: validateToken,
     temperature: validateTemperature,
-    role: validateRole
+    role: validateRole,
+    type: validateType,
+    status: validateStatus
 }
 export default validate

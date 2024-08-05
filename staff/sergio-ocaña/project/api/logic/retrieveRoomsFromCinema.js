@@ -31,7 +31,7 @@ function retrieveRoomsFromCinema(userId, cinemaId) {
 
                                     delete room._id
                                 }
-                                if (typeof room.cinema !== 'string')
+                                if (typeof room.cinema === 'object')
                                     room.cinema = room.cinema.toString()
                             })
 

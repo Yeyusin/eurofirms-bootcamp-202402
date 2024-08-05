@@ -5,11 +5,14 @@ import Login from './pages/Login'
 import RegisterCustomer from './pages/RegisterCustomer'
 import RegisterManager from './pages/RegisterManager'
 import Home from './pages/Home'
+import RouteFooter from './pages/RouteFooter'
+import Issue from './pages/Issue'
 
 const login = "/login"
 const register = "/register"
-const home = "/"
 const registerManager = "/register/manager"
+const home = "/"
+const issue = "/issue"
 
 function App() {
   const navigate = useNavigate()
@@ -24,11 +27,16 @@ function App() {
 
   const handleLogoutButton = () => navigate(login)
 
+  const handleHomeButton = () => navigate(home)
+
   return <Routes>
     <Route path={login} element={logic.isUserLoggedIn() ? <Navigate to={home} /> : <Login onUserLoggedIn={handleUserLoggedIn} onRegisterClick={handleRegisterButton} />} />
     <Route path={register} element={logic.isUserLoggedIn() ? <Navigate to={home} /> : <RegisterCustomer onUserRegistered={handleUserRegistered} onLoginClick={handleLoginButton} />} />
     <Route path={registerManager} element={logic.isUserLoggedIn() ? <Navigate to={home} /> : <RegisterManager onUserRegistered={handleUserRegistered} onLoginClick={handleLoginButton} />} />
-    <Route path={home} element={logic.isUserLoggedIn() ? <Home onLogoutClick={handleLogoutButton} /> : <Navigate to={login} />} />
+    <Route element={<RouteFooter onHomeClick={handleHomeButton} />}>
+      <Route path={home} element={logic.isUserLoggedIn() ? <Home onLogoutClick={handleLogoutButton} /> : <Navigate to={login} />} />
+      <Route path={issue} element={logic.isUserLoggedIn() ? <Issues onLogoutClick={handleLogoutButton} /> : <Navigate to={login} />} />
+    </Route>
   </Routes>
 
 }

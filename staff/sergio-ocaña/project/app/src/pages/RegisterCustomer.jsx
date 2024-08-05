@@ -15,7 +15,7 @@ function RegisterCustomer({ onUserRegistered, onLoginClick }) {
             feedback = `${feedback}, please correct it`
 
         else if (error instanceof DuplicityError)
-            feedback = `${feedback}, please try to relog again`
+            feedback = `${feedback}, please log in or try with other email`
 
         else feedback = 'sorry, there was an error, please try again later'
     }

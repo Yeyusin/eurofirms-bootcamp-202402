@@ -17,6 +17,8 @@ function createRoom(userId, cinemaId, name, temperature) {
 
             if (!user.cinema) throw new MatchError('You need asign a cinema first, so you can edit it')
 
+            if (user.role !== 'manager') throw new MatchError('You don t have privileges to create a Room')
+
             return Cinema.findById(cinemaId)
                 .catch(error => { throw new SystemError(error.message) })
                 .then(cinema => {

@@ -1,0 +1,1 @@
+curl -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjllM2Y5ZjU5NWYxNGRiNjViMjNhMTkiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMjUxODM4M30.CBMfEQWQoVzAvpkD5V1EE-Vsbd6HtF4t1r8UXRUPHEI' -H 'Content-Type: application/json' -d '{"location":"toilet","type":"cleaning","description":"No queda papel"}' http://localhost:8080/issues/66a8b2fca7a3e4552fedf3f4 -v

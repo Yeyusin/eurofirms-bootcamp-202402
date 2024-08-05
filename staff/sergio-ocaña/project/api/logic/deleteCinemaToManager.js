@@ -4,10 +4,9 @@ import { validate, errors } from 'com'
 
 const { SystemError, MatchError } = errors
 
-function deleteCinemaToManager(userId, cinemaId, role) {
+function deleteCinemaToManager(userId, cinemaId) {
     validate.id(userId)
     validate.id(cinemaId, 'cinemaId')
-    validate.role(role)
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -15,6 +14,8 @@ function deleteCinemaToManager(userId, cinemaId, role) {
             if (!user) throw new MatchError('User not found')
 
             if (!user.cinema) throw new MatchError('You don´t have any cinema to delete')
+
+            if (user.role !== 'manager') throw new MatchError('You don t have privileges')
 
             return Cinema.findById(cinemaId)
                 .catch(error => { throw new SystemError(error.message) })
