@@ -66,13 +66,12 @@ function FormCinema({ onAsignedCinema }) {
             {cinemas ? cinemas.map(cinema => {
                 const isCinemaSelected = selectedCinema === cinema.id
 
-                return (
-                    <li
-                        className={`flex cursor-pointer ${isCinemaSelected ? 'text-gray-100' : 'text-blue-300'}`}
-                        onClick={() => isCinemaSelected ? unselectCinema() : selectCinema(cinema.id)} key={cinema.id}>
-                        {cinema.name}
-                    </li>
-                )
+                return <li
+                    className={`flex cursor-pointer ${isCinemaSelected ? 'text-gray-100' : 'text-blue-300'}`}
+                    onClick={() => isCinemaSelected ? unselectCinema() : selectCinema(cinema.id)} key={cinema.id}>
+                    {cinema.name}
+                </li>
+
             }) : <p>Loading...</p>}
             {cinemas?.length === 0 && <p> Create your first cinema </p>}
 

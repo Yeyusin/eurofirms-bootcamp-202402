@@ -72,10 +72,10 @@ function validateId(id, explain = 'userId') {
     if (id.length !== 24) throw new RangeError(`${explain} has not valid length`)
 }
 
-function validateText(text) {
-    if (typeof text !== 'string') throw new TypeError('text is not a string')
+function validateText(text, explain = 'text') {
+    if (typeof text !== 'string') throw new TypeError(`${explain} is not a string`)
 
-    if (!text.length) throw new ContentError('text is empty')
+    if (!text.length) throw new ContentError(`${explain} is empty`)
 }
 
 function validateToken(token, explain = 'all') {

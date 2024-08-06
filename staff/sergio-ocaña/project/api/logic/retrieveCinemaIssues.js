@@ -3,7 +3,6 @@ import { validate, errors } from 'com'
 
 const { MatchError, SystemError } = errors
 
-
 function retrieveCinemaIssues(userId) {
     validate.id(userId)
 
@@ -21,7 +20,7 @@ function retrieveCinemaIssues(userId) {
                 .then(cinema => {
                     if (!cinema) throw new MatchError('Cinema not found')
 
-                    return Issue.find({ $and: [{ status: 'open' }, { cinema: cinemaId }] }).populate('author', 'name').sort({ date: -1 }).select('-__v ').lean()
+                    return Issue.find({ cinema: cinemaId }).populate([{ path: 'author', select: 'name' }, { path: 'cinema', select: 'name' }]).sort({ date: -1 }).select('-__v ').lean()
                         .catch(error => { throw new SystemError(error.message) })
                         .then(issues => {
                             issues.forEach(issue => {
@@ -36,15 +35,17 @@ function retrieveCinemaIssues(userId) {
 
                                     delete issue.author._id
                                 }
+                                if (issue.cinema._id) {
+                                    issue.cinema.id = issue.cinema._id.toString()
 
-                                if (typeof issue.cinema === 'object') issue.cinema = issue.cinema.toString()
+                                    delete issue.cinema._id
+                                }
 
                                 if ('room' in issue) if (typeof issue.room === 'object') issue.room = issue.room.toString()
                             })
 
                             return issues
                         })
-
                 })
         })
 }

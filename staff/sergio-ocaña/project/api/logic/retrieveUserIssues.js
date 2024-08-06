@@ -14,7 +14,7 @@ function retrieveUserIssues(userId) {
 
             if (user.role !== 'customer') throw new MatchError('only customers could search his issues')
 
-            return Issue.find({ author: userId }).sort({ date: -1 }).select('-__v -author').lean()
+            return Issue.find({ author: userId }).sort({ date: -1 }).populate('cinema', 'name').select('-__v -author').lean()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(issues => {
                     issues.forEach(issue => {
@@ -24,7 +24,11 @@ function retrieveUserIssues(userId) {
                             delete issue._id
                         }
 
-                        if (typeof issue.cinema === 'object') issue.cinema = issue.cinema.toString()
+                        if (issue.cinema._id) {
+                            issue.cinema.id = issue.cinema._id.toString()
+
+                            delete issue.cinema._id
+                        }
 
                         if ('room' in issue) if (typeof issue.room === 'object') issue.room = issue.room.toString()
                     })

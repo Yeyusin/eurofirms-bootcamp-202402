@@ -67,8 +67,6 @@ function Home({ onLogoutClick }) {
             {showFormCinema === 1 && !user?.cinema && <FormCinema onAsignedCinema={handleAsignedCinema} />}
             {user && !logic.IsManagerUserLoggedIn() && <p>Customer</p>}
         </main>
-
-
     </>
 }
 export default Home

@@ -23,7 +23,7 @@ function CreateRoom({ handleCancelButtonRoom, handleCreateRoom }) {
             <div className='flex justify-between'>
                 <Button type='button' className='px-2 m-2' onClick={handleCancelClick}> Cancel </Button>
 
-                <Button type='submit' className='px-2 m-2' > Submit </Button>
+                <Button type='submit' className='px-2 m-2'> Submit </Button>
             </div>
         </Form>
     </>

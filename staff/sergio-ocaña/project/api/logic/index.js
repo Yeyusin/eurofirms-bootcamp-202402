@@ -17,6 +17,7 @@ import retrieveCinemaIssues from './retrieveCinemaIssues.js'
 import retrieveUserIssues from './retrieveUserIssues.js'
 import deleteIssue from './deleteIssue.js'
 import closeIssue from './closeIssue.js'
+import retrieveRoomsFromCinemaCustomer from './retrieveRoomsFromCinemaCustomer.js'
 
 const logic = {
     authenticateUser,
@@ -33,6 +34,7 @@ const logic = {
     updateRoom,
     deleteRoom,
     retrieveRoomsFromCinema,
+    retrieveRoomsFromCinemaCustomer,
     createIssue,
     retrieveCinemaIssues,
     retrieveUserIssues,

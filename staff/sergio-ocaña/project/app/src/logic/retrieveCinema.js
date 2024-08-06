@@ -3,7 +3,7 @@ import { errors, validate } from 'com'
 const { SystemError } = errors
 
 function retrieveCinema(cinemaId) {
-    validate.token(sessionStorage.token, 'manager')
+    validate.token(sessionStorage.token)
     validate.id(cinemaId, 'cinemaId')
 
 

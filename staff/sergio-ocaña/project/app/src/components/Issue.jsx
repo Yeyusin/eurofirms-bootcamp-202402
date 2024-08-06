@@ -1,0 +1,29 @@
+import { Button, HTag } from './index'
+import logic from '../logic'
+
+function Issue({ issue, onCloseIssueButton, onDeleteIssueButton, onCommentButtonClick }) {
+    const isIssueOpen = issue.status === 'open'
+
+    return <article className=' flex flex-col p-4 bg-slate-500' >
+        <div className='bg-orange-300 flex flex-row justify-between items-center w-full mb-4' >
+            <HTag level={3}>{issue.id}</HTag>
+            <p className={isIssueOpen ? 'text-green-600' : 'text-red-600'}>{issue.status}</p>
+        </div>
+        <p className='text-gray-400 '>{issue.cinema.name}</p>
+        <p className='text-gray-400'>{issue.type}</p>
+        <p className='text-gray-400'>{issue.description}</p>
+        {logic.IsManagerUserLoggedIn() && <p className='text-green-600'>{issue.author.name}</p>}
+        <div className='flex flex-row justify-between'>
+            <div className='flex flex-row justify-start'>
+                <Button onClick={() => onCommentButtonClick(issue.id)}>💬</Button>
+                {logic.IsManagerUserLoggedIn() && <>
+                    <Button onClick={() => onCloseIssueButton(issue.id)}>✔</Button>
+                    <Button onClick={() => onDeleteIssueButton(issue.id)}>🗑</Button>
+                </>
+                }
+            </div>
+            <time className='text-gray-400 text-sm' >{issue.date}</time>
+        </div>
+    </article>
+
+} export default Issue

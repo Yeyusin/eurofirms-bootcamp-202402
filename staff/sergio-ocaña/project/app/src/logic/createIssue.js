@@ -2,12 +2,12 @@ import { errors, validate } from 'com'
 
 const { SystemError } = errors
 
-function createIssue(cinemaId, location, type, description, roomId = null) {
+function createIssue(cinemaId, location, type, description, roomId) {
     validate.token(sessionStorage.token, 'customer')
     validate.id(cinemaId, 'cinemaId')
-    validate.text(location)
+    validate.text(location, 'location')
     validate.type(type)
-    validate.text(description)
+    validate.text(description, 'description')
 
     let url = `${import.meta.env.VITE_API_URL}/issues/${cinemaId}`
 

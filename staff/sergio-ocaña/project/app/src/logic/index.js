@@ -13,8 +13,14 @@ import deleteCinema from './deleteCinema'
 import createCinema from './createCinema'
 import createRoom from './createRoom'
 import retrieveRoomsFromCinema from './retrieveRoomsFromCinema'
+import retrieveRoomsFromCinemaCustomer from './retrieveRoomsFromCinemaCustomer'
 import updateRoom from './updateRoom'
 import deleteRoom from './deleteRoom'
+import createIssue from './createIssue'
+import retrieveUserIssues from './retrieveUserIssues'
+import retrieveCinemaIssues from './retrieveCinemaIssues'
+import closeIssue from './closeIssue'
+import deleteIssue from './deleteIssue'
 
 
 const logic = {
@@ -33,8 +39,14 @@ const logic = {
     deleteCinema,
     createRoom,
     retrieveRoomsFromCinema,
+    retrieveRoomsFromCinemaCustomer,
     updateRoom,
-    deleteRoom
+    deleteRoom,
+    createIssue,
+    retrieveUserIssues,
+    retrieveCinemaIssues,
+    closeIssue,
+    deleteIssue,
 }
 
 export default logic

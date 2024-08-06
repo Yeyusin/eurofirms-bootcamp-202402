@@ -3,7 +3,7 @@ import { validate, errors } from 'com'
 const { SystemError } = errors
 
 function retrieveCinemas() {
-    validate.token(sessionStorage.token, 'manager')
+    validate.token(sessionStorage.token)
 
     return fetch(`${import.meta.env.VITE_API_URL}/cinemas`, {
         method: 'GET',
