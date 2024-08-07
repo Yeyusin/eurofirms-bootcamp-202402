@@ -27,8 +27,6 @@ function updateRoom(userId, cinemaId, roomId, name, temperature) {
 
                     if (cinemaId !== user.cinema.toString()) throw new MatchError('You can only modify your own cinema')
 
-                    if (user.role !== 'manager') throw new MatchError('You don t have privileges')
-
                     return Room.findById(roomId)
                         .catch(error => { throw new SystemError(error.message) })
                         .then(room => {

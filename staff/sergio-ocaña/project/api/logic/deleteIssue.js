@@ -1,4 +1,4 @@
-import { User, Issue } from '../data/index.js'
+import { User, Issue, Comment } from '../data/index.js'
 import { validate, errors } from 'com'
 
 const { MatchError, SystemError } = errors
@@ -12,7 +12,7 @@ function deleteIssue(userId, issueId) {
         .then(user => {
             if (!user) throw new MatchError('user not found')
 
-            return Issue.findById(issueId).lean()
+            return Issue.findById(issueId)
                 .catch(error => { throw new SystemError(error.message) })
                 .then(issue => {
                     if (!issue) throw new MatchError('issue not found')
@@ -21,7 +21,11 @@ function deleteIssue(userId, issueId) {
 
                     return Issue.findByIdAndDelete(issueId)
                         .catch(error => { throw new SystemError(error.message) })
-                        .then(() => { })
+                        .then(() => {
+                            return Comment.deleteMany({ issue: issueId })
+                                .catch(error => { throw new SystemError(error.message) })
+                                .then(() => { })
+                        })
                 })
         })
 }

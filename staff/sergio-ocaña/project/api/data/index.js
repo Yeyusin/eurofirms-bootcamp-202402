@@ -45,8 +45,8 @@ const user = new Schema({
         enum: ['customer', 'manager'],
         default: 'customer'
     }
-
 })
+
 const room = new Schema({
     name: {
         type: String,
@@ -62,6 +62,7 @@ const room = new Schema({
         required: true,
     }
 })
+
 const ticket = new Schema({
     user: {
         type: ObjectId,
@@ -82,6 +83,7 @@ const ticket = new Schema({
         required: true
     }
 })
+
 const issue = new Schema({
     author: {
         type: ObjectId,
@@ -125,6 +127,7 @@ const issue = new Schema({
         required: true
     }
 })
+
 const comment = new Schema({
     text: {
         type: String,
