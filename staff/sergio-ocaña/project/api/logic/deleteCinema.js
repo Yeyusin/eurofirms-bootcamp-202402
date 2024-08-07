@@ -26,7 +26,11 @@ function deleteCinema(userId, cinemaId) {
                             return Issue.find({ cinema: cinemaId }
                                 .catch(error => { throw SystemError(error.message) })
                                 .then((issues) => {
-                                    const deleteIssuesId = issues.map(issue => issue._id)
+                                    const deleteIssuesId = issues.map(issue => {
+                                        if (issue.status === 'open') throw new MatchError('You could only delete Cinema without open issues')
+
+                                        return issue._id
+                                    })
 
                                     return Cinema.findByIdAndDelete(cinemaId)
                                         .catch(error => { throw SystemError(error.message) })
