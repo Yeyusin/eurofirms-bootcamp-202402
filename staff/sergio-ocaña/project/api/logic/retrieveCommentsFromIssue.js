@@ -13,14 +13,27 @@ function retrieveCommentsFromIssue(userId, issueId) {
         .then(user => {
             if (!user) throw new MatchError('User not found')
 
-            return Issue.findById(issueId)
+            return Issue.findById(issueId).select('-__v').lean()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(issue => {
-                    if (!issue) throw new MatchError('Cinema not found')
+                    if (!issue) throw new MatchError('Issue not found')
 
                     if (issue.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== issue.cinema.toString())) throw new MatchError('You only could only see issues that belongs you or if you´re manager of the cinema')
 
-                    return Comment.find({ issue: issueId }).select('-__v').sort({ date: 1 }).lean()
+                    if (issue._id) {
+                        issue.id = issue._id.toString()
+
+
+                        delete issue._id
+                    }
+
+                    if (typeof issue.author === 'object') issue.author = issue.author.toString()
+
+                    if (typeof issue.cinema === 'object') issue.cinema = issue.cinema.toString()
+
+                    if ('room' in issue && typeof issue.room === 'object') issue.room = issue.room.toString()
+
+                    return Comment.find({ issue: issueId }).select('-__v').populate('author', 'name').sort({ date: 1 }).lean()
                         .catch(error => { throw new SystemError(error.message) })
                         .then(comments => {
                             comments.forEach(comment => {
@@ -29,12 +42,17 @@ function retrieveCommentsFromIssue(userId, issueId) {
 
                                     delete comment._id
                                 }
-                                if (typeof comment.issue === 'object') comment.issue = comment.issue.toString()
 
-                                if (typeof comment.author === 'object') comment.author = comment.author.toString()
+                                if (comment.author._id) {
+                                    comment.author.id = comment.author._id.toString()
+
+                                    delete comment.author._id
+                                }
+
+                                if (comment.issue) delete comment.issue
                             })
 
-                            return comments
+                            return { comments, issue }
                         })
 
                 })

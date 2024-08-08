@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, HTag, RadioButton } from '../components'
+import { Button, HTag, RadioButton, Form, Input } from '../components'
 import Issue from '../components/Issue'
 import logic from '../logic'
 import CreateIssue from '../components/CreateIssue'
@@ -9,7 +9,7 @@ import IsManagerUserLoggedIn from '../logic/IsManagerUserLoggedIn'
 const { MatchError, ContentError } = errors
 
 
-function Issues({ routeStamp }) {
+function Issues({ handleCommentButton, routeStamp }) {
     const [issues, setIssues] = useState(null)
     const [status, setStatus] = useState('open')
     const [view, setView] = useState(null)
@@ -63,8 +63,6 @@ function Issues({ routeStamp }) {
         setTimeStamp(Date.now())
     }
 
-    const handleCommentButton = () => { }
-
     const handleCloseIssueButton = issueId => {
         try {
             logic.closeIssue(issueId)
@@ -85,7 +83,6 @@ function Issues({ routeStamp }) {
         }
     }
 
-
     return <main className='flex flex-col my-14'>
         <div className='flex flex-row  justify-between mx-8'>
             <HTag level={2}>Issues </HTag>
@@ -95,7 +92,6 @@ function Issues({ routeStamp }) {
         {issues ? issues?.filter(issue => issue.status === status).map(issue => {
             return <Issue key={issue.id} issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />
         }) : <p className=' place-self-center'>We are happy not issues avalaible to see</p>}
-
 
         {!IsManagerUserLoggedIn() && <Button onClick={handleCreateView}>Create Issue</Button>}
         {view && <CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />}

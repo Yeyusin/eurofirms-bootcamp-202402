@@ -4,11 +4,9 @@ import { validate, errors } from 'com'
 
 const { SystemError, MatchError } = errors
 
-function deleteComment(userId, commentId, text) {
+function deleteComment(userId, commentId) {
     validate.id(userId)
     validate.id(commentId, 'commentId')
-    validate.text(text)
-
 
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
@@ -24,15 +22,13 @@ function deleteComment(userId, commentId, text) {
 
                     const { issue } = comment
 
-                    if (issue.status === 'closed') throw new MatchError('You can only edit comments from open Issues')
+                    if (issue.status === 'closed') throw new MatchError('You can only delete comments from open Issues')
 
-                    if (issue.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You only could edit comments in issues that is created by you or if you´re manager of the cinema')
+                    if (issue.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You only could delete comments in issues that is created by you or if you´re manager of the cinema')
 
-                    if (comment.author.toString() !== userId) throw new MatchError('You can only edit your comments')
+                    if (comment.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You can only delete your comments or if you are manger of the cinema')
 
-                    comment.text = text
-
-                    return comment.save()
+                    return Comment.findByIdAndDelete(commentId)
                         .catch(error => { throw new SystemError(error.message) })
                         .then(comment => { })
 

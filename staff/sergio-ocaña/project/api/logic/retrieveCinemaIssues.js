@@ -41,7 +41,7 @@ function retrieveCinemaIssues(userId) {
                                     delete issue.cinema._id
                                 }
 
-                                if ('room' in issue) if (typeof issue.room === 'object') issue.room = issue.room.toString()
+                                if ('room' in issue && typeof issue.room === 'object') issue.room = issue.room.toString()
                             })
 
                             return issues

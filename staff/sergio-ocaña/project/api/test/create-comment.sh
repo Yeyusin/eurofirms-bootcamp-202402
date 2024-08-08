@@ -1,0 +1,1 @@
+curl -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjllM2Y5ZjU5NWYxNGRiNjViMjNhMTkiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMjUxODM4M30.CBMfEQWQoVzAvpkD5V1EE-Vsbd6HtF4t1r8UXRUPHEI' -H 'Content-Type: application/json' -d '{"text":"es en la sala  1"}' http://localhost:8080/comments/66b175a0696756f5c2b2c88c -v

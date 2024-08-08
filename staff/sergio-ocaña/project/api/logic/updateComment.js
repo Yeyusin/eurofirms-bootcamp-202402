@@ -20,15 +20,15 @@ function updateComment(userId, commentId, text) {
                 .then(comment => {
                     if (!comment) throw new MatchError('Comment not found')
 
-                    console.log(comment.issue)
-
                     if (!comment.issue) throw new MatchError('Issue not found')
 
-                    if (comment.issue.status === 'closed') throw new MatchError('You can only edit comments from open Issues')
+                    const { issue } = comment
 
-                    if (comment.issue.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You only could edit comments in issues that is created by you or if you´re manager of the cinema')
+                    if (issue.status === 'closed') throw new MatchError('You can only edit comments from open Issues')
 
-                    if (comment.author.toString() !== userId) throw new MatchError('You can only edit your comments')
+                    if (issue.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You only could update comments in issues that is created by you or if you´re manager of the cinema')
+
+                    if (comment.author.toString() !== userId) throw new MatchError('You can only edit your own comments')
 
                     comment.text = text
 

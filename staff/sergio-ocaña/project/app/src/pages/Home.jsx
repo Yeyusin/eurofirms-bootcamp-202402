@@ -43,26 +43,14 @@ function Home({ onLogoutClick }) {
         }
     }, [timeStamp])
 
-    const handleLogoutButton = () => {
-        logic.logoutUser()
-
-        onLogoutClick()
-    }
-
     const handleAsignedCinema = () => {
         setFormCinema(0)
         setTimeStamp(Date.now())
     }
 
     return <>
-        <Header>
-            {!user && <p> Loading... </p>}
-            {user && <HTag className='flex flex-nowrap'>{`Welcome to Happy People, ${user.name}`}</HTag>}
-
-            <Button onClick={handleLogoutButton}>🚪</Button>
-        </Header>
-
         <main className='flex flex-col my-14'>
+            <HTag > {user ? `Welcome to Happy People, ${user.name}` : 'Loading...'}</HTag>
             {user && logic.IsManagerUserLoggedIn() && user.cinema && <Cinema cinemaId={user.cinema} />}
             {showFormCinema === 1 && !user?.cinema && <FormCinema onAsignedCinema={handleAsignedCinema} />}
             {user && !logic.IsManagerUserLoggedIn() && <p>Customer</p>}

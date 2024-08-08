@@ -18,6 +18,11 @@ import retrieveUserIssues from './retrieveUserIssues.js'
 import deleteIssue from './deleteIssue.js'
 import closeIssue from './closeIssue.js'
 import retrieveRoomsFromCinemaCustomer from './retrieveRoomsFromCinemaCustomer.js'
+import createComment from './createComment.js'
+import retrieveCommentsFromIssue from './retrieveCommentsFromIssue.js'
+import retrieveComment from './retrieveComment.js'
+import updateComment from './updateComment.js'
+import deleteComment from './deleteComment.js'
 
 const logic = {
     authenticateUser,
@@ -40,6 +45,11 @@ const logic = {
     retrieveUserIssues,
     closeIssue,
     deleteIssue,
+    createComment,
+    retrieveCommentsFromIssue,
+    retrieveComment,
+    updateComment,
+    deleteComment,
 }
 
 export default logic 

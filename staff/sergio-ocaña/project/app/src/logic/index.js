@@ -2,6 +2,7 @@ import registerCustomer from './registerCustomer'
 import registerManager from './registerManager'
 import loginUser from './loginUser'
 import isUserLoggedIn from './isUserLoggedIn'
+import getLoggedInUserId from './getLoggedInUserId'
 import logoutUser from './logoutUser'
 import retrieveUser from './retrieveUser'
 import IsManagerUserLoggedIn from './IsManagerUserLoggedIn'
@@ -21,7 +22,11 @@ import retrieveUserIssues from './retrieveUserIssues'
 import retrieveCinemaIssues from './retrieveCinemaIssues'
 import closeIssue from './closeIssue'
 import deleteIssue from './deleteIssue'
-
+import createComment from './createComment'
+import retrieveCommentsFromIssue from './retrieveCommentsFromIssue'
+import retrieveComment from './retrieveComment'
+import updateComment from './updateComment'
+import deleteComment from './deleteComment'
 
 const logic = {
     registerCustomer,
@@ -29,6 +34,7 @@ const logic = {
     loginUser,
     retrieveUser,
     isUserLoggedIn,
+    getLoggedInUserId,
     logoutUser,
     IsManagerUserLoggedIn,
     retrieveCinema,
@@ -47,6 +53,11 @@ const logic = {
     retrieveCinemaIssues,
     closeIssue,
     deleteIssue,
+    createComment,
+    retrieveCommentsFromIssue,
+    retrieveComment,
+    updateComment,
+    deleteComment
 }
 
 export default logic
