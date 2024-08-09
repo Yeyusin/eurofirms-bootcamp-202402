@@ -12,6 +12,12 @@ import createRoom from './createRoom.js'
 import updateRoom from './updateRoom.js'
 import deleteRoom from './deleteRoom.js'
 import retrieveRoomsFromCinema from './retrieveRoomsFromCinema.js'
+import generateTicket from './generateTicket.js'
+import asignTicket from './asignTicket.js'
+import retrieveTicketById from './retrieveTicketById.js'
+import retrieveUserTickets from './retrieveUserTickets.js'
+import updateTicket from './updateTicket.js'
+import deleteTicket from './deleteTicket.js'
 import createIssue from './createIssue.js'
 import retrieveCinemaIssues from './retrieveCinemaIssues.js'
 import retrieveUserIssues from './retrieveUserIssues.js'
@@ -40,6 +46,12 @@ const logic = {
     deleteRoom,
     retrieveRoomsFromCinema,
     retrieveRoomsFromCinemaCustomer,
+    generateTicket,
+    asignTicket,
+    retrieveTicketById,
+    retrieveUserTickets,
+    updateTicket,
+    deleteTicket,
     createIssue,
     retrieveCinemaIssues,
     retrieveUserIssues,

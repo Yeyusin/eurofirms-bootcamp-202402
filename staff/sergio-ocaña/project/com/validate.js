@@ -133,7 +133,15 @@ function validateStatus(status) {
 
     if (status == !'open' || status == ! 'close') throw new ContentError('is not a viable status')
 }
+function validateSeat(seat) {
+    if (typeof seat !== 'string') throw new TypeError('seat is not a string')
 
+    if (!seat.length) throw new ContentError('seat is empty')
+
+    if (!seat[0] === 'F') throw new TypeError('seat have to start with "F"')
+
+    if (!seat.includes('-B')) throw new TypeError('seat should have B in the seat')
+}
 
 const validate = {
     name: validateName,
@@ -146,6 +154,7 @@ const validate = {
     temperature: validateTemperature,
     role: validateRole,
     type: validateType,
-    status: validateStatus
+    status: validateStatus,
+    seat: validateSeat
 }
 export default validate

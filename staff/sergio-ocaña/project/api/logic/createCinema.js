@@ -9,8 +9,6 @@ function createCinema(userId, name, address) {
     validate.name(name)
     validate.name(address)
 
-
-
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
