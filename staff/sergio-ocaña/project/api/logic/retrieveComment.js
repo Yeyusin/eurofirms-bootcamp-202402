@@ -18,7 +18,7 @@ function retrieveComment(userId, issueId) {
                 .then(comment => {
                     if (!comment) throw new MatchError('Issue not found')
 
-                    if (comment.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You only could only see issues that belongs you or if you´re manager of the cinema')
+                    if (comment.author._id.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You only could only see issues that belongs you or if you´re manager of the cinema')
 
                     if (comment._id) {
                         comment.id = comment._id.toString()

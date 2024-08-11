@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import { Header, Button } from '../components'
 import logic from '../logic'
 
-function HeaderFooter({ onHomeClick, onIssueClick, onLogoutClick }) {
+function HeaderFooter({ onHomeClick, onIssueClick, onTicketClick, onLogoutClick }) {
     const handleLogoutButton = () => {
         logic.logoutUser()
 
@@ -11,11 +11,11 @@ function HeaderFooter({ onHomeClick, onIssueClick, onLogoutClick }) {
     }
 
     return <>
-        <Outlet />
         <Header >
             <Button onClick={handleLogoutButton}>🚪</Button>
         </Header>
-        <Footer onHomeClick={onHomeClick} onIssueClick={onIssueClick} />
+        <Outlet />
+        <Footer onHomeClick={onHomeClick} onIssueClick={onIssueClick} onTicketClick={onTicketClick} />
     </>
 }
 

@@ -7,7 +7,7 @@ import FormCinema from '../components/FormCinema'
 
 const { TypeError, MatchError, ContentError } = errors
 
-function Home({ onLogoutClick }) {
+function Home({ onHomeTicketClick, onHomeIssueClick }) {
     const [user, setUser] = useState(null)
     const [showFormCinema, setFormCinema] = useState(0)
     const [timeStamp, setTimeStamp] = useState(Date.now())
@@ -49,11 +49,15 @@ function Home({ onLogoutClick }) {
     }
 
     return <>
-        <main className='flex flex-col my-14'>
+        <main className='flex flex-col my-20 gap-10'>
             <HTag > {user ? `Welcome to Happy People, ${user.name}` : 'Loading...'}</HTag>
-            {user && logic.IsManagerUserLoggedIn() && user.cinema && <Cinema cinemaId={user.cinema} />}
+            {user && logic.isManagerUserLoggedIn() && user.cinema && <Cinema cinemaId={user.cinema} />}
             {showFormCinema === 1 && !user?.cinema && <FormCinema onAsignedCinema={handleAsignedCinema} />}
-            {user && !logic.IsManagerUserLoggedIn() && <p>Customer</p>}
+            {user && !logic.isManagerUserLoggedIn() &&
+                <div className='flex flex-col gap-10 rounded'>
+                    <button onClick={onHomeTicketClick} className='rounded-full text-9xl bg-gray-100 w-full h-80'>🎟️</button>
+                    <button onClick={onHomeIssueClick} className='rounded-full text-9xl bg-gray-100 w-full h-80'>☹️</button>
+                </div>}
         </main>
     </>
 }

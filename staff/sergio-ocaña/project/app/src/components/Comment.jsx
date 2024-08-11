@@ -67,7 +67,7 @@ function Comment({ comment, isEditing, onDeleteClick, onSubmitUpdate, onCancelCl
                 <p>{comment.text}</p>
                 <time className='block text-right text-xs'>{comment.date}</time>
                 {isAuthorComment && <Button onClick={() => onEditClick(comment.id)}>✏️</Button>}
-                {(isAuthorComment || logic.IsManagerUserLoggedIn()) && < Button onClick={() => onDeleteClick(comment.id)}>🗑️</Button>}
+                {(isAuthorComment || logic.isManagerUserLoggedIn()) && < Button onClick={() => onDeleteClick(comment.id)}>🗑️</Button>}
             </>}
     </article >
 } export default Comment

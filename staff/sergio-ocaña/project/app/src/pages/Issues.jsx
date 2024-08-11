@@ -4,7 +4,6 @@ import Issue from '../components/Issue'
 import logic from '../logic'
 import CreateIssue from '../components/CreateIssue'
 import { errors } from 'com'
-import IsManagerUserLoggedIn from '../logic/IsManagerUserLoggedIn'
 
 const { MatchError, ContentError } = errors
 
@@ -31,7 +30,7 @@ function Issues({ handleCommentButton, routeStamp }) {
 
     useEffect(() => {
         try {
-            const promise = logic.IsManagerUserLoggedIn() ? logic.retrieveCinemaIssues() : logic.retrieveUserIssues()
+            const promise = logic.isManagerUserLoggedIn() ? logic.retrieveCinemaIssues() : logic.retrieveUserIssues()
 
             promise
                 .then(issues => {
@@ -74,6 +73,10 @@ function Issues({ handleCommentButton, routeStamp }) {
     }
 
     const handleDeleteIssueButton = issueId => {
+        const deleteOrNot = confirm('Are you sure about to delete this issue?')
+
+        if (!deleteOrNot) return
+
         try {
             logic.deleteIssue(issueId)
                 .then(() => setTimeStamp(Date.now()))
@@ -83,7 +86,7 @@ function Issues({ handleCommentButton, routeStamp }) {
         }
     }
 
-    return <main className='flex flex-col my-14'>
+    return <main className='flex flex-col my-14 gap-6'>
         <div className='flex flex-row  justify-between mx-8'>
             <HTag level={2}>Issues </HTag>
             <RadioButton OnRadioButtonClick={handleRadioButtonClick} />
@@ -92,9 +95,11 @@ function Issues({ handleCommentButton, routeStamp }) {
         {issues ? issues?.filter(issue => issue.status === status).map(issue => {
             return <Issue key={issue.id} issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />
         }) : <p className=' place-self-center'>We are happy not issues avalaible to see</p>}
+        {issues?.length === 0 && < p className=' place-self-center'>We are happy not issues avalaible to see</p>
+        }
 
-        {!IsManagerUserLoggedIn() && <Button onClick={handleCreateView}>Create Issue</Button>}
+        {!logic.isManagerUserLoggedIn() && <Button onClick={handleCreateView}>Create Issue</Button>}
         {view && <CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />}
-    </main>
+    </main >
 
 } export default Issues

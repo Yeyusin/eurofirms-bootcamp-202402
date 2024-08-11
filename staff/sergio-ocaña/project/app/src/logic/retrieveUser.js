@@ -15,7 +15,15 @@ function retrieveUser() {
     })
         .catch(error => { throw new SystemError(error.message) })
         .then(res => {
-            if (res.status === 200) return res.json()
+            if (res.status === 200) {
+                return res.json()
+                    .catch(error => { throw new SystemError(error.message) })
+                    .then(user => {
+                        if ('cinema' in user) sessionStorage.cinema = true
+                        return user
+                    })
+
+            }
 
             return res.json()
                 .catch(error => { throw new SystemError(error.message) })

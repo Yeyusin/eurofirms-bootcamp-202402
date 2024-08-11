@@ -78,7 +78,7 @@ function validateText(text, explain = 'text') {
     if (!text.length) throw new ContentError(`${explain} is empty`)
 }
 
-function validateToken(token, explain = 'all') {
+function validateToken(token, explain = null) {
     if (typeof token !== 'string') throw new TypeError('token is not a string')
 
     if (!token.length) throw new ContentError('token is empty')
@@ -93,12 +93,11 @@ function validateToken(token, explain = 'all') {
 
     if (exp < now) throw new MatchError('token expired')
 
-    if (explain !== 'all') {
+    if (explain) {
         if (role !== explain) throw new MatchError(`wrong role only ${explain} could do`)
     }
-
-
 }
+
 function validateRole(role, explain = 'manager') {
     if (typeof role !== 'string') throw new TypeError('role is not a string')
 

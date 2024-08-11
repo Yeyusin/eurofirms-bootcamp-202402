@@ -35,7 +35,7 @@ function createIssue(userId, cinemaId, location, type, description, roomId) {
         .then(user => {
             if (!user) throw new MatchError('User not found')
 
-            if (user.role == ! 'customer') throw new MatchError('You need asign a cinema first, so you can edit it')
+            if (user.role !== 'customer') throw new MatchError('Only customers could create a issue')
 
             return Cinema.findById(cinemaId)
                 .catch(error => { throw new SystemError(error.message) })

@@ -24,7 +24,7 @@ function IssueWithComments({ onLeftArrowClick }) {
         if (error instanceof TypeError || error instanceof RangeError || error instanceof ContentError)
             feedback = `${feedback}, please correct it`
         else if (error instanceof MatchError)
-            feedback = `${feedback}, please try to relog again`
+            feedback = `${feedback}, please verify it`
         else feedback = 'sorry, there was an error, please try again later'
 
         alert(feedback)
@@ -120,9 +120,9 @@ function IssueWithComments({ onLeftArrowClick }) {
         {comments?.length !== 0 && comments?.map(comment => {
             return <Comment key={comment.id} onDeleteClick={handleDeleteClick} onSubmitUpdate={handleSubmitUpdate} onCancelClick={handleCancelClick} handleEditButton={handleEditButton} comment={comment} isEditing={isEditing} />
         })}
-        <Form onSubmit={handleCreateSubmit}>
+        <Form id='addComent' onSubmit={handleCreateSubmit}>
             <Input id='text' placeholder='Add a new comment' />
-            <Button type='submit'>Send</Button>
+            <Button form='addComent' type='submit'>Send</Button>
         </Form>
     </main >
 }

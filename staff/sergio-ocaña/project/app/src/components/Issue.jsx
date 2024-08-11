@@ -12,11 +12,11 @@ function Issue({ issue, onCloseIssueButton, onDeleteIssueButton, onCommentButton
         <p className='text-gray-400 '>{issue.cinema.name}</p>
         <p className='text-gray-400'>{issue.type}</p>
         <p className='text-gray-400'>{issue.description}</p>
-        {logic.IsManagerUserLoggedIn() && <p className='text-green-600'>{issue.author.name}</p>}
+        {logic.isManagerUserLoggedIn() && <p className='text-green-600'>{issue.author.name}</p>}
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row justify-start'>
                 <Button onClick={() => onCommentButtonClick(issue.id)}>💬</Button>
-                {logic.IsManagerUserLoggedIn() && <>
+                {logic.isManagerUserLoggedIn() && <>
                     <Button onClick={() => onCloseIssueButton(issue.id)}>✔</Button>
                     <Button onClick={() => onDeleteIssueButton(issue.id)}>🗑</Button>
                 </>
