@@ -1,4 +1,4 @@
-import { HTag, Form, LabelInput, Button } from './index'
+import { HTag, Form, LabelInput, Button, Article, ButtonText } from './index'
 import { useEffect, useState } from 'react'
 import logic from '../logic'
 import { errors } from 'com'
@@ -166,77 +166,79 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
         }
     }
 
-    return <>
-        {cinemas && step === 0 && <>
-            <HTag level={3}> Select Cinema</HTag>
+    return <Article>
+        <div className='w-full flex flex-col justify-center'>
+            {cinemas && step === 0 && <>
+                <HTag level={3}> Select Cinema</HTag>
 
-            <ul className='flex flex-col'>
-                {cinemas.map(cinema => {
-                    return <li
-                        className={'flex cursor-pointer text-blue-300'} onClick={() => handleSelectedCinema(cinema.id)} key={cinema.id}> {cinema.name}
-                    </li>
-                })}
-            </ul >
-        </>}
+                <ul className='flex flex-col'>
+                    {cinemas.map(cinema => {
+                        return <li
+                            className={'flex cursor-pointer text-blue-300'} onClick={() => handleSelectedCinema(cinema.id)} key={cinema.id}> {cinema.name}
+                        </li>
+                    })}
+                </ul >
+            </>}
 
-        {step === 1 && <>
-            <HTag level={3}> Is the issue related to a room?</HTag>
+            {step === 1 && <>
+                <HTag level={3}> Is the issue related to a room?</HTag>
 
-            <div className='flex flex-row'>
-                <Button onClick={handleYesButton}>Yes</Button>
+                <div className='flex flex-row'>
+                    <ButtonText onClick={handleYesButton}>Yes</ButtonText>
 
-                <Button onClick={handleNoButton}>No</Button>
-            </div>
-        </>}
+                    <ButtonText onClick={handleNoButton}>No</ButtonText>
+                </div>
+            </>}
 
-        {step === 2 && rooms && isLocationRoom && <>
-            <HTag level={3}> Select Room</HTag>
+            {step === 2 && rooms && isLocationRoom && <>
+                <HTag level={3}> Select Room</HTag>
 
-            <ul className='flex flex-col'>
-                {rooms?.map(room => {
-                    return <li
-                        className={'flex cursor-pointer text-blue-300'} onClick={() => handleSelectedRoom(room.id, room.name)} key={room.id}> {room.name}
-                    </li>
-                })}
-            </ul >
-        </>}
+                <ul className='flex flex-col'>
+                    {rooms?.map(room => {
+                        return <li
+                            className={'flex cursor-pointer text-blue-300'} onClick={() => handleSelectedRoom(room.id, room.name)} key={room.id}> {room.name}
+                        </li>
+                    })}
+                </ul >
+            </>}
 
-        {step === 2 && !isLocationRoom && <>
-            <HTag level={3}> Tell us where the issue happened</HTag>
+            {step === 2 && !isLocationRoom && <>
+                <HTag level={3}> Tell us where the issue happened</HTag>
 
-            <Form onSubmit={onSubmitLocation}>
-                <LabelInput text='Location' id='location' />
+                <Form onSubmit={onSubmitLocation}>
+                    <LabelInput text='Location' id='location' />
 
-                <Button type='submit'>Next</Button>
-            </Form>
+                    <ButtonText type='submit'>Next</ButtonText>
+                </Form>
 
-        </>}
+            </>}
 
-        {step === 3 && <>
-            <HTag level={3}> What type of issue happened?</HTag>
+            {step === 3 && <>
+                <HTag level={3}> What type of issue happened?</HTag>
 
-            <div className='flex flex-row'>
-                <Button onClick={handleTemperatureButton}>Temperature</Button>
+                <div className='flex flex-col'>
+                    <ButtonText onClick={handleTemperatureButton}>Temperature</ButtonText>
 
-                <Button onClick={handleSoundButton}>Sound</Button>
+                    <ButtonText onClick={handleSoundButton}>Sound</ButtonText>
 
-                <Button onClick={handleFilmButton}>Film</Button>
+                    <ButtonText onClick={handleFilmButton}>Film</ButtonText>
 
-                <Button onClick={handleCleaningButton}>Cleaning</Button>
-            </div>
-        </>}
+                    <ButtonText onClick={handleCleaningButton}>Cleaning</ButtonText>
+                </div>
+            </>}
 
 
-        {step === 4 && <>
-            <HTag level={3}> Tell us what happened</HTag>
+            {step === 4 && <>
+                <HTag level={3}> Tell us what happened</HTag>
 
-            <Form onSubmit={onSubmitDescription}>
-                <LabelInput text='Description' id='description' />
+                <Form onSubmit={onSubmitDescription}>
+                    <LabelInput text='Description' id='description' />
 
-                <Button type='submit'>Next</Button>
-            </Form>
+                    <ButtonText type='submit'>Next</ButtonText>
+                </Form>
 
-        </>}
-        <Button onClick={handleCancelButtonIssue}>Cancel</Button>
-    </>
+            </>}
+            <ButtonText onClick={handleCancelButtonIssue}>Cancel</ButtonText>
+        </div>
+    </Article>
 } export default CreateIssue

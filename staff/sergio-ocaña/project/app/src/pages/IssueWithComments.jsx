@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Form, Input, Button } from '../components'
+import { Form, Input, Button, ButtonText, Article } from '../components'
 import Issue from '../components/Issue'
 import logic from '../logic'
 import { errors } from 'com'
@@ -15,6 +15,7 @@ function IssueWithComments({ onLeftArrowClick }) {
     const [issue, setIssue] = useState(null)
     const [refreshStamp, setRefreshStamp] = useState(Date.now())
     const [isEditing, setIsEditing] = useState({ value: false, id: 0 })
+    const [createComment, setCreateComment] = useState(null)
 
     const errorHandler = error => {
         console.error(error)
@@ -26,6 +27,8 @@ function IssueWithComments({ onLeftArrowClick }) {
         else if (error instanceof MatchError)
             feedback = `${feedback}, please verify it`
         else feedback = 'sorry, there was an error, please try again later'
+
+        if (error.message.includes('expired')) logic.deleteToken()
 
         alert(feedback)
     }
@@ -43,8 +46,6 @@ function IssueWithComments({ onLeftArrowClick }) {
             errorHandler(error)
         }
     }, [refreshStamp])
-
-    const handleCommentButton = () => setRefreshStamp(Date.now())
 
     const handleCloseIssueButton = issueId => {
         try {
@@ -110,20 +111,29 @@ function IssueWithComments({ onLeftArrowClick }) {
         }
     }
 
+    const onCancelComment = () => setCreateComment(null)
+
     const handleCancelClick = () => setIsEditing({ value: false, id: 0 })
 
     const handleEditButton = commentId => setIsEditing({ value: true, id: commentId })
 
-    return <main className='flex flex-col my-14'>
-        <Button onClick={onLeftArrowClick}>←</Button>
+    const handleCommentButton = () => setCreateComment(true)
+
+    return <Article>
+        <Button className='text-3xl' onClick={onLeftArrowClick}>←</Button >
         {issue && <Issue issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />}
         {comments?.length !== 0 && comments?.map(comment => {
-            return <Comment key={comment.id} onDeleteClick={handleDeleteClick} onSubmitUpdate={handleSubmitUpdate} onCancelClick={handleCancelClick} handleEditButton={handleEditButton} comment={comment} isEditing={isEditing} />
+            return <Comment key={comment.id} onDeleteClick={handleDeleteClick} onSubmitUpdate={handleSubmitUpdate} onCancelClick={handleCancelClick} onCommentButtonClick={handleCommentButton} handleEditButton={handleEditButton} comment={comment} isEditing={isEditing} />
         })}
-        <Form id='addComent' onSubmit={handleCreateSubmit}>
-            <Input id='text' placeholder='Add a new comment' />
-            <Button form='addComent' type='submit'>Send</Button>
-        </Form>
-    </main >
+        {createComment && <div className='w-full flex-flex-col justify-center fixed bottom-12 pt-4 border-box  bg-[#e4b641]'>
+            <Form id='addComent' onSubmit={handleCreateSubmit}>
+                <Input id='text' placeholder='Add a new comment' />
+                <div className='w-full flex flex-row justify-center'>
+                    <ButtonText type='button' onClick={onCancelComment}>Cancel</ButtonText>
+                    <ButtonText form='addComent' type='submit'>Send</ButtonText>
+                </div>
+            </Form>
+        </div>}
+    </Article>
 }
 export default IssueWithComments

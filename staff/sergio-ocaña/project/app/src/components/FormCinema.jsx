@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, HTag } from './index.js'
+import { Button, ButtonText, HTag } from './index.js'
 import logic from '../logic'
 import { errors } from 'com'
 import FormCreateCinema from './FormCreateCinema.jsx'
@@ -61,24 +61,24 @@ function FormCinema({ onAsignedCinema }) {
     }
 
     return <>
-        <HTag>Select Cinema</HTag>
-        <ul>
-            {cinemas ? cinemas.map(cinema => {
+        {showFormCreateCinema === 0 && <HTag>Select Cinema</HTag>}
+        <ul className='w-full'>
+            {showFormCreateCinema === 0 && cinemas && cinemas.map(cinema => {
                 const isCinemaSelected = selectedCinema === cinema.id
 
                 return <li
-                    className={`flex cursor-pointer ${isCinemaSelected ? 'text-gray-100' : 'text-blue-300'}`}
+                    className={`flex cursor-pointer w-full border-2 text-[#4ca4b8] ${isCinemaSelected ? 'bg-yellow-600' : ' bg-white'}`}
                     onClick={() => isCinemaSelected ? unselectCinema() : selectCinema(cinema.id)} key={cinema.id}>
                     {cinema.name}
                 </li>
 
-            }) : <p>Loading...</p>}
+            })}
             {cinemas?.length === 0 && <p> Create your first cinema </p>}
 
-            <div className='flex justify-around space between '>
-                <Button onClick={handleCreateCinemaClick}>New Cinema</Button>
-                <Button onClick={() => handleAsignCinema(selectedCinema)}>Asign Cinema</Button>
-            </div>
+            {showFormCreateCinema === 0 && <div className='flex justify-around space between '>
+                <ButtonText onClick={handleCreateCinemaClick}>New Cinema</ButtonText>
+                <ButtonText onClick={() => handleAsignCinema(selectedCinema)}>Asign Cinema</ButtonText>
+            </div>}
         </ul>
         {showFormCreateCinema === 1 && <FormCreateCinema onCancelClick={handleCancelButton} onCreatedCinema={handleCreatedCinema} />}
     </>

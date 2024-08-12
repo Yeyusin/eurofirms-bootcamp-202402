@@ -31,7 +31,8 @@ function deleteCinema(userId, cinemaId) {
 
                                         return issue._id
                                     })
-
+                                })
+                                .then(() => {
                                     return Cinema.findByIdAndDelete(cinemaId)
                                         .catch(error => { throw SystemError(error.message) })
                                         .then(() => {
@@ -41,23 +42,21 @@ function deleteCinema(userId, cinemaId) {
                                         .then(() => {
                                             return Room.deleteMany({ cinema: cinemaId })
                                                 .catch(error => { throw SystemError(error.message) })
-                                                .then(() => { })
+
                                         })
                                         .then(() => {
                                             return Issue.deleteMany({ cinema: cinemaId })
                                                 .catch(error => { throw SystemError(error.message) })
-                                                .then(() => {
-                                                    deleteIssuesId.forEach(issueId => {
-                                                        return Comment.deleteMany({ issue: issueId })
-                                                            .catch(error => { throw SystemError(error.message) })
-                                                    })
-                                                })
-                                                .then(() => { })
+
                                         })
+                                        .then(() => {
+                                            return Comment.deleteMany({ issue: { $in: deleteIssuesId } })
+                                                .catch(error => { throw SystemError(error.message) })
+                                        })
+                                        .then(() => { })
                                 })
                             )
                         })
-
                 })
         })
 }

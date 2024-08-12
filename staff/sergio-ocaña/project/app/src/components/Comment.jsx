@@ -1,6 +1,6 @@
 import logic from "../logic"
 import { useState } from "react"
-import { HTag, Button, Form, LabelInput } from '../components'
+import { HTag, Button, Form, LabelInput, ButtonText, P } from '../components'
 import { errors } from "com"
 
 const { ContentError, MatchError } = errors
@@ -52,19 +52,19 @@ function Comment({ comment, isEditing, onDeleteClick, onSubmitUpdate, onCancelCl
         onSubmitUpdate(comment.id, updateText)
     }
 
-    return < article >
+    return < article className='w-full bg-white rounded-xl p-2'>
         <HTag level={3}>{author.name}</HTag>
         {isEditing?.value && isEditingComment ? <>
             <Form onSubmit={handleSubmit}>
                 <LabelInput text='Text to update' id='text' defaultValue={text} />
                 <div className='flex flex-row'>
-                    <Button type='submit'>Update</Button>
-                    <Button type='button' onClick={onCancelClick}>Cancel</Button>
+                    <ButtonText type='button' onClick={onCancelClick}>Cancel</ButtonText>
+                    <ButtonText type='submit'>Update</ButtonText>
                 </div>
             </Form >
         </>
             : <>
-                <p>{comment.text}</p>
+                <P>{comment.text}</P>
                 <time className='block text-right text-xs'>{comment.date}</time>
                 {isAuthorComment && <Button onClick={() => onEditClick(comment.id)}>✏️</Button>}
                 {(isAuthorComment || logic.isManagerUserLoggedIn()) && < Button onClick={() => onDeleteClick(comment.id)}>🗑️</Button>}

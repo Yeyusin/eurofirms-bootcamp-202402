@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { HTag, Button, Header } from '../components'
+import { HTag, Main, Article, MainThin } from '../components'
 import logic from '../logic'
 import { errors } from 'com'
 import Cinema from '../components/Cinema'
@@ -7,7 +7,7 @@ import FormCinema from '../components/FormCinema'
 
 const { TypeError, MatchError, ContentError } = errors
 
-function Home({ onHomeTicketClick, onHomeIssueClick }) {
+function Home({ onHomeTicketClick, onHomeIssueClick, handleQrClick, handleQrCinemaClick }) {
     const [user, setUser] = useState(null)
     const [showFormCinema, setFormCinema] = useState(0)
     const [timeStamp, setTimeStamp] = useState(Date.now())
@@ -22,6 +22,8 @@ function Home({ onHomeTicketClick, onHomeIssueClick }) {
         else if (error instanceof MatchError)
             feedback = `${feedback}, please try to relog again`
         else feedback = 'sorry, there was an error, please try again later'
+
+        if (error.message.includes('expired')) logic.deleteToken()
 
         alert(feedback)
     }
@@ -47,18 +49,23 @@ function Home({ onHomeTicketClick, onHomeIssueClick }) {
         setFormCinema(0)
         setTimeStamp(Date.now())
     }
+    const handleUnasignCinema = () => {
+        setTimeStamp(Date.now())
+    }
 
     return <>
-        <main className='flex flex-col my-20 gap-10'>
-            <HTag > {user ? `Welcome to Happy People, ${user.name}` : 'Loading...'}</HTag>
-            {user && logic.isManagerUserLoggedIn() && user.cinema && <Cinema cinemaId={user.cinema} />}
+        <Article className='top-10 gap-4'>
+
+            <HTag > {user ? `Welcome, ${user.name}` : 'Loading...'}</HTag>
+            {user && logic.isManagerUserLoggedIn() && user.cinema && <Cinema onUnasignCinema={handleUnasignCinema} handleQrClick={handleQrClick} handleQrCinemaClick={handleQrCinemaClick} cinemaId={user.cinema} />}
             {showFormCinema === 1 && !user?.cinema && <FormCinema onAsignedCinema={handleAsignedCinema} />}
             {user && !logic.isManagerUserLoggedIn() &&
-                <div className='flex flex-col gap-10 rounded'>
-                    <button onClick={onHomeTicketClick} className='rounded-full text-9xl bg-gray-100 w-full h-80'>🎟️</button>
-                    <button onClick={onHomeIssueClick} className='rounded-full text-9xl bg-gray-100 w-full h-80'>☹️</button>
+                <div className='flex flex-col gap-8 rounded w-full mb-2'>
+                    <button onClick={onHomeTicketClick} className='rounded-full text-9xl bg-gray- w-full h-80 inline-block bg-[#b98724]'>🎟️</button>
+                    <button onClick={onHomeIssueClick} className='rounded-full text-9xl w-full h-80 inline-block bg-[#b98724]'>☹️</button>
                 </div>}
-        </main>
+        </Article>
+
     </>
 }
 export default Home

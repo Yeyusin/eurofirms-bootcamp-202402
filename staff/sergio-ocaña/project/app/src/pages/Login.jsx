@@ -1,6 +1,7 @@
-import { Button, LabelInput, Form, HTag } from '../components'
+import { ButtonText, LabelInput, Form, HTag, Main, Article } from '../components'
 import logic from '../logic'
 import { errors } from 'com'
+import logo from '../img/logo.png'
 
 const { MatchError, ContentError } = errors
 
@@ -42,16 +43,22 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
         }
     }
     return <>
-        <HTag> Login </HTag>
+        <footer className=''>
+            <img src={logo} alt='Logo' />
+        </footer>
 
-        <Form onSubmit={handleSubmit}>
-            <LabelInput text='E-mail' id='email' />
-            <LabelInput text='Password' type='password' id='password' />
+        <Article>
+            <HTag> Login </HTag>
 
-            <Button type="submit"> Login </Button>
-
-            <Button type="button" onClick={handleRegisterButton}> Register </Button>
-        </Form>
+            <Form onSubmit={handleSubmit}>
+                <LabelInput text='E-mail' id='email' />
+                <LabelInput text='Password' type='password' id='password' />
+                <div className='flex flex-row justify-center w-full'>
+                    <ButtonText type="submit"> Login </ButtonText>
+                    <ButtonText type="button" onClick={handleRegisterButton}> Register </ButtonText>
+                </div>
+            </Form>
+        </Article>
     </>
 }
 export default Login

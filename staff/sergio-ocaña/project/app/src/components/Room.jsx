@@ -1,8 +1,9 @@
 import { nameValue, tempValue } from './magicValues'
 import EditField from './EditField'
-import { Button } from './index'
+import { Button, P } from './index'
+import { QrCodeIcon } from '@heroicons/react/16/solid'
 
-function Room({ room, updateRoomName, updateRoomTemp, isClicked, onCancelButtonEdit, onTemperatureClick, onNameClick, onDeleteClick }) {
+function Room({ room, cinemaId, updateRoomName, updateRoomTemp, isClicked, onCancelButtonEdit, onTemperatureClick, onNameClick, onDeleteClick, onQrClick }) {
 
     const handleOnTemperatureClick = () => onTemperatureClick(room.id)
 
@@ -16,7 +17,7 @@ function Room({ room, updateRoomName, updateRoomTemp, isClicked, onCancelButtonE
 
     const onDeleteClickButton = () => onDeleteClick(room.id)
 
-    return <li key={room.id} className='flex flex-col place-items-center gap-5'>
+    return <li key={room.id} className='flex flex-col place-items-center gap-5 w-full'>
 
         {(isClicked?.id === room.id && isClicked?.value === nameValue) ?
             <EditField text='Change the name'
@@ -25,7 +26,7 @@ function Room({ room, updateRoomName, updateRoomTemp, isClicked, onCancelButtonE
                 onCancelClick={handleCancelEditButton}
                 onSubmitClick={value => handleClickUpdateName(value)}
             />
-            : <div><p className='flex font-bold text-xl' onClick={handleOnNameClick}>{room.name}</p>
+            : <div className='w-full'><P className='flex font-bold' onClick={handleOnNameClick}>{room.name}</P>
             </div>}
 
         {(isClicked?.id === room.id && isClicked?.value === tempValue) ?
@@ -36,8 +37,12 @@ function Room({ room, updateRoomName, updateRoomTemp, isClicked, onCancelButtonE
                 onCancelClick={handleCancelEditButton}
                 onSubmitClick={value => handleClickUpdateTemp(value)}
             />
-            : <> <p className='flex' onClick={handleOnTemperatureClick}> {`${room.temperature} Cº`} </p>
-                <Button onClick={onDeleteClickButton}>🗑️</Button>
+            : <>
+                <P className='flex' onClick={handleOnTemperatureClick}> {`${room.temperature} Cº`} </P>
+                <div className='flex flex-row w-full'>
+                    <Button onClick={onDeleteClickButton}>🗑️</Button>
+                    <QrCodeIcon className='size-12' onClick={() => onQrClick(cinemaId, room.id)} />
+                </div>
             </>}
     </li>
 

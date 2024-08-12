@@ -1,5 +1,6 @@
-import { Button, LabelInput, Form, HTag } from '../components'
+import { ButtonText, LabelInput, Form, HTag, Main, Article } from '../components'
 import logic from '../logic'
+import logo from '../img/logo.png'
 
 import { errors } from 'com'
 
@@ -45,20 +46,24 @@ function RegisterManager({ onUserRegistered, onLoginClick }) {
         }
     }
     return <>
-        <HTag> Register as manager </HTag>
+        <footer>
+            <img src={logo} alt='Logo' />
+        </footer>
 
-        <Form onSubmit={handleSubmit}>
-            <LabelInput text='Name' id='name' />
-            <LabelInput text='Birthdate' type='date' id='birthdate' />
-            <LabelInput text='E-mail' id='email' />
-            <LabelInput text='Password' type='password' id='password' />
-            <div className='flex justify-between'>
-                <Button type='submit' className='px-2 m-2' > Register </Button>
+        <Article>
+            <HTag> Register as manager </HTag>
 
-                <Button type='button' className='px-2 m-2' onClick={handleLoginButton}> Login </Button>
-
-            </div>
-        </Form>
+            <Form id='register' onSubmit={handleSubmit}>
+                <LabelInput text='Name' id='name' />
+                <LabelInput text='Birthdate' type='date' id='birthdate' />
+                <LabelInput text='E-mail' id='email' />
+                <LabelInput text='Password' type='password' id='password' />
+                <div className='flex flex-row justify-center w-full'>
+                    <ButtonText type='button' onClick={handleLoginButton}> Login </ButtonText>
+                    <ButtonText form='register' type='submit'  > Register </ButtonText>
+                </div>
+            </Form>
+        </Article>
     </>
 }
 export default RegisterManager

@@ -4,8 +4,8 @@ import logic from '../logic'
 function Issue({ issue, onCloseIssueButton, onDeleteIssueButton, onCommentButtonClick }) {
     const isIssueOpen = issue.status === 'open'
 
-    return <article className=' flex flex-col p-4 bg-slate-500' >
-        <div className='bg-orange-300 flex flex-row justify-between items-center w-full mb-4' >
+    return <article className=' flex flex-col p-2 bg-slate-500 w-full' >
+        <div className='bg-orange-300 flex flex-row justify-around items-center w-full ' >
             <HTag level={3}>{issue.id}</HTag>
             <p className={isIssueOpen ? 'text-green-600' : 'text-red-600'}>{issue.status}</p>
         </div>

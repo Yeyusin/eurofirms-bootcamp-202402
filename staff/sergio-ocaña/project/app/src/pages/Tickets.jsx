@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import logic from '../logic'
 import Ticket from '../components/Ticket'
-import { HTag, Form, Input, Button } from '../components'
+import { HTag, Form, Input, Button, Main, MainThin, Article } from '../components'
 
 import { errors } from 'com'
-const { MatchError, SystemError, ContentError } = errors
+const { MatchError, ContentError } = errors
 
 function Tickets({ onCreateIssueClick }) {
     const [tickets, setTickets] = useState(null)
@@ -22,10 +22,15 @@ function Tickets({ onCreateIssueClick }) {
             feedback = `${feedback}, please verify it`
         else feedback = 'sorry, there was an error, please try again later'
 
+        if (error.message.includes('expired')) logic.deleteToken()
+
         alert(feedback)
     }
 
     useEffect(() => {
+        //verify is in sessionStorage a ticket and asign to user if accepted
+        if (logic.isTicketAvaliableToAsign()) logic.isManagerUserLoggedIn() ? retrieveTicket(logic.getTicketToAsign()) : asignTicket(logic.getTicketToAsign())
+
         if (!logic.isManagerUserLoggedIn()) {
             try {
                 logic.retrieveUserTickets()
@@ -89,6 +94,19 @@ function Tickets({ onCreateIssueClick }) {
         }
     }
 
+    const retrieveTicket = ticketId => {
+        try {
+            logic.retrieveTicketById(ticketId)
+                .then(res => {
+                    logic.deleteLocalTicket()
+                    setTicket(res)
+                })
+                .catch(error => errorHandler(error))
+        } catch (error) {
+            errorHandler(error)
+        }
+    }
+
     const onSubmit = event => {
         event.preventDefault()
 
@@ -109,24 +127,23 @@ function Tickets({ onCreateIssueClick }) {
         }
     }
 
-    //verify is in sessionStorage a ticket and asign to user if accepted
-    if (!logic.isManagerUserLoggedIn() && logic.isTicketAvaliableToAsign()) asignTicket(logic.getTicketToAsign())
-
     const placeholder = logic.isManagerUserLoggedIn() ? 'Search Ticket by Id' : 'Add Ticket by Id'
     const condition = logic.isManagerUserLoggedIn() ? !ticket || ticket?.length === 0 : !tickets || tickets?.length === 0
-    return <main className='flex flex-col justify-center my-14 gap-4'>
-        <HTag level={2}>Tickets</HTag>
+    return <>
+        <Article>
+            <HTag >Tickets</HTag>
 
-        {condition && <p>No tickets to show</p>}
-        {!logic.isManagerUserLoggedIn() && tickets && tickets?.map(mapTicket =>
-            <Ticket key={mapTicket.id} ticket={mapTicket} onSubmited={handleSubmited} onCreateIssueClick={onCreateIssueClick} />)}
-        {logic.isManagerUserLoggedIn() && ticket && <Ticket ticket={ticket} onDeleteTicketButton={handleDeleteTicket} />}
+            {condition && <p>No tickets to show</p>}
+            {!logic.isManagerUserLoggedIn() && tickets && tickets?.map(mapTicket =>
+                <Ticket key={mapTicket.id} ticket={mapTicket} onSubmited={handleSubmited} onCreateIssueClick={onCreateIssueClick} />)}
+            {logic.isManagerUserLoggedIn() && ticket && <Ticket ticket={ticket} onDeleteTicketButton={handleDeleteTicket} />}
+        </Article>
         <Form id='asignSearch' onSubmit={onSubmit}>
-            <div className='bg-gray-100 fixed z-10' >
+            <div className='flex flex-row bg-gray-100 fixed w-full bottom-0 mb-12 z-10 gap-1 p-1' >
                 <Input id='ticketId' placeholder={placeholder}></Input>
                 <Button form='asignSearch' type='submit'> {logic.isManagerUserLoggedIn() ? '🔍' : '➕'}</Button>
             </div>
         </Form>
-    </main>
+    </>
 }
 export default Tickets

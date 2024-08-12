@@ -1,6 +1,7 @@
-import { Button, LabelInput, Form, HTag } from '../components'
+import { LabelInput, Form, HTag, ButtonText, Article, Main } from '../components'
 import logic from '../logic'
 import { errors } from 'com'
+import logo from '../img/logo.png'
 
 const { DuplicityError, ContentError } = errors
 
@@ -45,20 +46,23 @@ function RegisterCustomer({ onUserRegistered, onLoginClick }) {
         }
     }
     return <>
-        <main className='flex flex-col'>
+        <footer className=''>
+            <img src={logo} alt='Logo' />
+        </footer>
+        <Article>
             <HTag>Register</HTag>
 
-            <Form onSubmit={handleSubmit}>
+            <Form id='register' onSubmit={handleSubmit}>
                 <LabelInput text='Name' id='name' />
                 <LabelInput text='Birthdate' type='date' id='birthdate' />
                 <LabelInput text='E-mail' id='email' />
                 <LabelInput text='Password' type='password' id='password' />
-
-                <Button type='submit' > Register </Button>
-
-                <Button type='button' onClick={handleLoginButton}> Login </Button>
+                <div className='flex flex-row justify-center w-full'>
+                    <ButtonText type='button' onClick={handleLoginButton}> Login </ButtonText>
+                    <ButtonText form='register' type='submit' > Register </ButtonText>
+                </div>
             </Form>
-        </main >
+        </Article>
     </>
 }
 export default RegisterCustomer

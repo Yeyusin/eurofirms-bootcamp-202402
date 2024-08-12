@@ -1,5 +1,5 @@
 import logic from '../logic'
-import { Button, Form, LabelInput, HTag } from './index.js'
+import { ButtonText, Form, LabelInput, HTag } from './index.js'
 import { errors } from 'com'
 
 const { ContentError, MatchError } = errors
@@ -39,18 +39,18 @@ function FormCreateCinema({ onCancelClick, onCreatedCinema }) {
             errorHandler(error)
         }
     }
-    return <div>
+    return <div className='flex flex-col justify-center w-full'>
         <HTag> Create cinema </HTag>
 
-        <Form onSubmit={handleSubmit}>
-            <LabelInput text='Cinema´s name' id='name' />
+        <Form id='createCinema' onSubmit={handleSubmit}>
+            <LabelInput className='w-full' text='Cinema´s name' id='name' />
             <LabelInput text='Address' id='address' />
-
-            <Button type="submit" onSubmit={handleSubmit}> Create Cinema </Button>
-
-            <Button type="button" onClick={handleCancelButton}> Cancel </Button>
-        </Form>
-    </div>
+            <div className='flex flex-row justify-center w-full'>
+                <ButtonText type="button" onClick={handleCancelButton}> Cancel </ButtonText>
+                <ButtonText form='createCinema' type="submit" onSubmit={handleSubmit}> Create Cinema </ButtonText>
+            </div>
+        </Form >
+    </div >
 }
 
 export default FormCreateCinema

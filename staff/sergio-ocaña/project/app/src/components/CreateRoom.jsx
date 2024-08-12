@@ -1,4 +1,4 @@
-import { HTag, Form, LabelInput, Button } from './index'
+import { HTag, Form, LabelInput, Button, ButtonText } from './index'
 
 function CreateRoom({ handleCancelButtonRoom, handleCreateRoom }) {
     const onSubmitRoom = event => {
@@ -13,18 +13,18 @@ function CreateRoom({ handleCancelButtonRoom, handleCreateRoom }) {
     }
     const handleCancelClick = () => handleCancelButtonRoom()
 
-    return <>
+    return <section className='absolute flex flex-col bottom-10 left-0  bg-[#e4b641] w-full p-2' >
         <HTag level={3}> Create Your Room</HTag>
 
-        <Form onSubmit={onSubmitRoom}>
+        <Form id='createRoom' onSubmit={onSubmitRoom}>
             <LabelInput text='Room name' id='name' />
             <LabelInput text='Temperature' type='number' id='temperature' />
 
-            <div className='flex justify-between'>
-                <Button type='button' className='px-2 m-2' onClick={handleCancelClick}> Cancel </Button>
+            <div className='flex flex-row justify-center w-full'>
+                <ButtonText type='button' onClick={handleCancelClick}> Cancel </ButtonText>
 
-                <Button type='submit' className='px-2 m-2'> Submit </Button>
+                <ButtonText form='createRoom' type='submit' > Create </ButtonText>
             </div>
         </Form>
-    </>
+    </section >
 } export default CreateRoom

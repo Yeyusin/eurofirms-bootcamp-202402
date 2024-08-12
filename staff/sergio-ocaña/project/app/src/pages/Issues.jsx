@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, HTag, RadioButton, Form, Input } from '../components'
+import { Button, HTag, RadioButton, Article, P } from '../components'
 import Issue from '../components/Issue'
 import logic from '../logic'
 import CreateIssue from '../components/CreateIssue'
@@ -24,6 +24,8 @@ function Issues({ handleCommentButton, routeStamp }) {
         else if (error instanceof MatchError)
             feedback = `${feedback}, please try to relog again`
         else feedback = 'sorry, there was an error, please try again later'
+
+        if (error.message.includes('expired')) logic.deleteToken()
 
         alert(feedback)
     }
@@ -86,20 +88,24 @@ function Issues({ handleCommentButton, routeStamp }) {
         }
     }
 
-    return <main className='flex flex-col my-14 gap-6'>
-        <div className='flex flex-row  justify-between mx-8'>
-            <HTag level={2}>Issues </HTag>
-            <RadioButton OnRadioButtonClick={handleRadioButtonClick} />
+    return <Article>
+        <div className='flex flex-row justify-center w-full h-8'>
+            <div className='w-1/2 flex flex-col justify-center'>
+                <HTag>Issues </HTag>
+            </div>
+            {!logic.isManagerUserLoggedIn() && <Button className='text-2xl' onClick={handleCreateView}>➕</Button>}
+            <div className='w-1/2 flex flex-row justify-end'>
+                <RadioButton status={status} OnRadioButtonClick={handleRadioButtonClick} />
+            </div>
         </div>
 
         {issues ? issues?.filter(issue => issue.status === status).map(issue => {
             return <Issue key={issue.id} issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />
-        }) : <p className=' place-self-center'>We are happy not issues avalaible to see</p>}
-        {issues?.length === 0 && < p className=' place-self-center'>We are happy not issues avalaible to see</p>
+        }) : <P className=' place-self-center'>We are happy not issues avalaible to see</P>
         }
 
-        {!logic.isManagerUserLoggedIn() && <Button onClick={handleCreateView}>Create Issue</Button>}
+        {issues?.length === 0 && < P className=' place-self-center'>We are happy not issues avalaible to see</P>}
         {view && <CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />}
-    </main >
+    </Article>
 
 } export default Issues

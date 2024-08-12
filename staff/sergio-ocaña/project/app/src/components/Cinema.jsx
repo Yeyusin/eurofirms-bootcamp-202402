@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import logic from '../logic'
-import { HTag, Button } from './index.js'
+import { HTag, Button, ButtonText, P } from './index.js'
 import Room from './Room.jsx'
 import CreateRoom from './CreateRoom.jsx'
+import { QrCodeIcon } from '@heroicons/react/16/solid'
 
 import { errors } from 'com'
 const { ContentError, MatchError, DuplicityError } = errors
 
 import { nameValue, tempValue, createValue } from './magicValues'
 
-function Cinema({ cinemaId }) {
+function Cinema({ cinemaId, onUnasignCinema, handleQrClick, handleQrCinemaClick }) {
     const [name, setName] = useState(null)
     const [rooms, setRooms] = useState(null)
     const [isClicked, setClicked] = useState(null)
@@ -26,6 +27,8 @@ function Cinema({ cinemaId }) {
         else if (error instanceof MatchError)
             feedback = `${feedback}, we couldn´t find with that parameters`
         else feedback = 'sorry, there was an error, please try again later'
+
+        if (error.message.includes('expired')) logic.deleteToken()
 
         alert(feedback)
     }
@@ -81,7 +84,6 @@ function Cinema({ cinemaId }) {
         setClicked(selected)
     }
 
-
     const onSubmitRoom = (name, temperature) => {
         try {
             logic.createRoom(cinemaId, name, temperature)
@@ -95,6 +97,7 @@ function Cinema({ cinemaId }) {
             errorHandler(error)
         }
     }
+
     const handleCancelButtonRoom = () => setClicked(null)
 
     const handleCancelButtonEdit = () => setClicked(null)
@@ -130,8 +133,30 @@ function Cinema({ cinemaId }) {
 
     const handleClickUpdateTemp = (roomId, name, temperature) => updateRoom(roomId, name, temperature)
 
+    const onUnselectCinema = () => {
+        const unselectOrNot = confirm('Are you sure about to unasign this cinema?')
+
+        if (!unselectOrNot) return
+
+        try {
+            logic.deleteCinemaToManager(cinemaId)
+                .then(() => onUnasignCinema())
+                .catch(error => errorHandler(error))
+        } catch (error) {
+            errorHandler(error)
+        }
+    }
+
     return <>
-        {name ? <HTag level={2}>{name}</HTag> : <p>Loading....</p>}
+        {name ? <div className='flex-flex-row w-full'>
+            <div className='flex flex-row justify-center gap-2'>
+                <HTag level={2}>Your cinema is :</HTag>
+                <P>{name}</P>
+                <Button onClick={onUnselectCinema} className='text-xl'>❌</Button>
+                <Button className='text-xl' onClick={handleClickNewRoom}>➕</Button>
+                <QrCodeIcon className='size-8' onClick={() => handleQrCinemaClick(cinemaId)} />
+            </div>
+        </div > : <p>Loading....</p>}
         <ul className='flex flex-col gap-5'>
             {rooms?.map(room =>
                 <Room key={room.id}
@@ -142,12 +167,13 @@ function Cinema({ cinemaId }) {
                     onTemperatureClick={handleTemperatureClick}
                     onNameClick={handleNameClick}
                     updateRoomName={handleClickUpdateName}
-                    updateRoomTemp={handleClickUpdateTemp} />
+                    updateRoomTemp={handleClickUpdateTemp}
+                    onQrClick={handleQrClick}
+                    cinemaId={cinemaId} />
             )}
             {rooms?.length === 0 && <p> Create your first room </p>}
-            {(isClicked?.value === createValue) ?
-                <CreateRoom handleCancelButtonRoom={handleCancelButtonRoom} handleCreateRoom={onSubmitRoom} />
-                : <Button onClick={handleClickNewRoom}>Add new Room</Button>}
+            {(isClicked?.value === createValue) && <CreateRoom handleCancelButtonRoom={handleCancelButtonRoom} handleCreateRoom={onSubmitRoom} />}
+
         </ul>
     </>
 }

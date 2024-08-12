@@ -26,12 +26,11 @@ function deleteComment(userId, commentId) {
 
                     if (issue.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You only could delete comments in issues that is created by you or if you´re manager of the cinema')
 
-                    if (comment.author._id.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You can only delete your comments or if you are manger of the cinema')
+                    if (comment.author.toString() !== userId && (user.role !== 'manager' || user.cinema.toString() !== comment.issue.cinema.toString())) throw new MatchError('You can only delete your comments or if you are manger of the cinema')
 
                     return Comment.findByIdAndDelete(commentId)
                         .catch(error => { throw new SystemError(error.message) })
                         .then(comment => { })
-
                 })
         })
 }
