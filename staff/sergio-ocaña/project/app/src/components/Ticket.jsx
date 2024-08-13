@@ -7,7 +7,7 @@ const { ContentError, MatchError } = errors
 
 function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick, refreshStamp }) {
     const [whereIsEditing, setWhereIsEditing] = useState(null)
-    const [roomId, setRoomId] = useState(ticket.room.id)
+    const [roomId, setRoomId] = useState(ticket?.room?.id)
     const [rooms, setRooms] = useState(null)
     const conditionButtons = logic.isManagerUserLoggedIn() && !!whereIsEditing
 
@@ -81,7 +81,7 @@ function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick, 
                     </select>
                 </Form>
                 : <div className='flex flex-row gap-5 self'>
-                    <P>{ticket.room.name}</P>
+                    <P>{ticket.room?.name}</P>
                     {logic.isManagerUserLoggedIn() && <Button onClick={() => onEditTicketButton(roomValue)}>✏️</Button>}
                 </div>}
         </div>

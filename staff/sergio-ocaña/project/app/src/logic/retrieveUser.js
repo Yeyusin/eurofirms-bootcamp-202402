@@ -19,6 +19,7 @@ function retrieveUser() {
                 return res.json()
                     .catch(error => { throw new SystemError(error.message) })
                     .then(user => {
+                        if (sessionStorage.cinema) delete sessionStorage.cinema
                         if ('cinema' in user) sessionStorage.cinema = true
                         return user
                     })

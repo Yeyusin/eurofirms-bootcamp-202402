@@ -1,4 +1,4 @@
-import { User, Cinema, Room } from '../data/index.js'
+import { User, Cinema, Room, Ticket } from '../data/index.js'
 
 import { validate, errors } from 'com'
 
@@ -34,7 +34,11 @@ function deleteRoom(userId, cinemaId, roomId) {
 
                             return Room.findByIdAndDelete(roomId)
                                 .catch(error => { throw new SystemError(error.message) })
-                                .then(room => { })
+                                .then(() => {
+                                    return Ticket.deleteMany({ room: roomId })
+                                        .then(() => { })
+                                        .catch(error => { throw new SystemError(error.message) })
+                                })
                         })
 
                 })

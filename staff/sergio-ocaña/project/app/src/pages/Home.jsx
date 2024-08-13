@@ -62,9 +62,7 @@ function Home({ onHomeTicketClick, onHomeIssueClick, handleQrClick, handleQrCine
         setFormCinema(0)
         setTimeStamp(Date.now())
     }
-    const handleUnasignCinema = () => {
-        setTimeStamp(Date.now())
-    }
+    const handleUnasignCinema = () => setTimeStamp(Date.now())
 
     return <>
         <Article className='top-10 gap-2'>
