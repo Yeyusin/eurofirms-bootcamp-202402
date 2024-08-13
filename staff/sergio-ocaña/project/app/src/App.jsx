@@ -1,23 +1,8 @@
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-
 import logic from './logic'
-import Login from './pages/Login'
-import RegisterCustomer from './pages/RegisterCustomer'
-import RegisterManager from './pages/RegisterManager'
-import Home from './pages/Home'
-import HeaderFooter from './pages/HeaderFooter'
-import Issues from './pages/Issues'
-import IssueWithComments from './pages/IssueWithComments'
-import VoidComponent from './pages/VoidComponent'
-import Tickets from './pages/Tickets'
-import GenerateTicket from './pages/GenerateTicket'
-import SaveTicket from './pages/SaveTicket'
-import CreateIssue from './components/CreateIssue'
-import SaveQR from './pages/SaveQR'
-import MainRoute from './pages/MainRoute'
-import QrCreate from './pages/QrCreate'
-import MainPage from './pages/MainPage'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { loginRoute, registerRoute, registerManagerRoute, homeRoute, issueRoute, ticketRoute, generateTicketRoute, qrRoute, generateQrRoute } from './routes'
+import { Login, RegisterCustomer, RegisterManager, Home, HeaderFooter, Issues, IssueWithComments, VoidComponent, Tickets, GenerateTicket, SaveTicket, CreateIssue, SaveQR, MainPage, MainRoute, QrCreate } from './pages'
+import { BgCompo } from './pages'
 
 function App() {
   const navigate = useNavigate()
@@ -71,6 +56,8 @@ function App() {
   const handleArrowClick = () => navigate(homeRoute)
 
   return <Routes>
+    {/* <Route element={<BgCompo />}> */}
+    <Route path="*" element={<Navigate to={homeRoute} />} />
     <Route element={logic.isUserLoggedIn() ? <Navigate to={homeRoute} /> : <MainPage />}>
       <Route path={loginRoute} element={<Login onUserLoggedIn={handleUserLoggedIn} onRegisterClick={handleRegisterButton} />} />
       <Route path={registerRoute} element={<RegisterCustomer onUserRegistered={handleUserRegistered} onLoginClick={handleLoginButton} />} />
@@ -94,6 +81,7 @@ function App() {
     <Route path={`${qrRoute}/:cinemaId/:location?`} element={<SaveQR onSavedQR={handleSavedQR} />} />
     <Route path={generateTicketRoute} element={<GenerateTicket redirectClick={handleRedirectClick} />} />
     <Route path={`${generateTicketRoute}/:ticketId`} element={<SaveTicket onSavedTicket={handleSavedTicket} />} />
+    {/* </Route> */}
   </Routes >
 }
 export default App

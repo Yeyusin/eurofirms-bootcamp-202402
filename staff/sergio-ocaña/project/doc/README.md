@@ -26,7 +26,7 @@ Manager
 - view issue
 - change issue status(close, cancel...)
 - list issues
-- change actual film, temperature
+- change actual temperature
 - add comment to issue
 
 ### UI Design
@@ -39,7 +39,7 @@ TODO Figma
 
 - JavaScript
 - React
-- React Native
+<!-- - React Native -->
 - Node
 - Express
 - Mongo
@@ -48,7 +48,7 @@ TODO Figma
 
 - API (server)
 - AppWeb (client, customers's client)
-- AppMovile (client, customers's client)
+<!-- - AppMovile (client, customers's client) -->
 
 ### Data Model
 

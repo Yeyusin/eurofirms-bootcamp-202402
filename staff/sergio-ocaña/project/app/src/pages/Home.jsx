@@ -45,6 +45,19 @@ function Home({ onHomeTicketClick, onHomeIssueClick, handleQrClick, handleQrCine
         }
     }, [timeStamp])
 
+    const handleDeleteCinema = cinemaId => {
+        const deleteOrNot = confirm('Are you sure about to delete this cinema?')
+
+        if (!deleteOrNot) return
+        try {
+            logic.deleteCinema(cinemaId)
+                .then(() => setTimeStamp(Date.now()))
+                .catch(error => errorHandler(error))
+        } catch (error) {
+            errorHandler(error)
+        }
+    }
+
     const handleAsignedCinema = () => {
         setFormCinema(0)
         setTimeStamp(Date.now())
@@ -57,7 +70,7 @@ function Home({ onHomeTicketClick, onHomeIssueClick, handleQrClick, handleQrCine
         <Article className='top-10 gap-4'>
 
             <HTag > {user ? `Welcome, ${user.name}` : 'Loading...'}</HTag>
-            {user && logic.isManagerUserLoggedIn() && user.cinema && <Cinema onUnasignCinema={handleUnasignCinema} handleQrClick={handleQrClick} handleQrCinemaClick={handleQrCinemaClick} cinemaId={user.cinema} />}
+            {user && logic.isManagerUserLoggedIn() && user.cinema && <Cinema onUnasignCinema={handleUnasignCinema} handleDeleteCinema={handleDeleteCinema} handleQrClick={handleQrClick} handleQrCinemaClick={handleQrCinemaClick} cinemaId={user.cinema} />}
             {showFormCinema === 1 && !user?.cinema && <FormCinema onAsignedCinema={handleAsignedCinema} />}
             {user && !logic.isManagerUserLoggedIn() &&
                 <div className='flex flex-col gap-8 rounded w-full mb-2'>

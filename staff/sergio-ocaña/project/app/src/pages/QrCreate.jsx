@@ -32,7 +32,7 @@ function QrCreate({ onArrowClick }) {
             {locationQr ? <>
                 <HTag>Your code QR for your Cinema and this location:</HTag>
                 <P>{`${locationQr}`}</P>
-                <QRCode value={`${import.meta.env.VITE_APP_URL}/${qrRoute}/${cinemaId}/${locationQr}`} />
+                <QRCode value={`${import.meta.env.VITE_APP_URL}${qrRoute}/${cinemaId}/${locationQr}`} />
             </>
                 : <div className='flex flex-col justify-center w-full items-center'>
                     <Form onSubmit={onSubmit}>

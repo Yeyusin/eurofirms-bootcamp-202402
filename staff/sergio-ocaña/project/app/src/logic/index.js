@@ -7,6 +7,7 @@ import getLoggedInUserId from './getLoggedInUserId'
 import getTicketToAsign from './getTicketToAsign.js'
 import getQRInfo from './getQRInfo.js'
 import saveLocalTicket from './saveLocalTicket.js'
+import saveLocalQR from './saveLocalQR.js'
 import deleteLocalTicket from './deleteLocalTicket.js'
 import deleteLocalQR from './deleteLocalQR.js'
 import deleteToken from './deleteToken.js'
@@ -55,6 +56,7 @@ const logic = {
     getTicketToAsign,
     getQRInfo,
     saveLocalTicket,
+    saveLocalQR,
     deleteLocalTicket,
     deleteLocalQR,
     deleteToken,

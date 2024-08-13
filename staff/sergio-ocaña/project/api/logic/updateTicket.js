@@ -21,9 +21,9 @@ function updateTicket(userId, ticketId, roomId, seat) {
                 .then(ticket => {
                     if (!ticket) throw new MatchError('ticket not found')
 
-                    if (ticket.cinema.toString() == !user.cinema.toString()) throw new MatchError('You could only asign rooms in the same cinema')
+                    if (ticket.cinema.toString() !== user.cinema.toString()) throw new MatchError('You could only asign rooms in the same cinema')
 
-                    if (ticket.seat == !seat) ticket.seat = seat
+                    if (ticket.seat !== seat) ticket.seat = seat
 
                     if (roomId && ticket.room.toString() !== roomId) {
 

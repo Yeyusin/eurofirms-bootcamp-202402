@@ -1,9 +1,12 @@
 function saveLocalTicket(cinemaId, location) {
     return new Promise((resolve, reject) => {
-        sessionStorage.qr.cinemaId = cinemaId
+        const qr = {}
+        qr.cinemaId = cinemaId
         if (location.length === 24 && !location.includes(' '))
-            sessionStorage.qr.roomId = location
-        else sessionStorage.qr.location = location
+            qr.roomId = location
+        else qr.location = location
+
+        sessionStorage.qr = JSON.stringify(qr)
 
         resolve()
     })

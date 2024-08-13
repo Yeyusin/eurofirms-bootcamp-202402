@@ -46,9 +46,9 @@ function RegisterCustomer({ onUserRegistered, onLoginClick }) {
         }
     }
     return <>
-        <footer className=''>
+        <header className=''>
             <img src={logo} alt='Logo' />
-        </footer>
+        </header>
         <Article>
             <HTag>Register</HTag>
 

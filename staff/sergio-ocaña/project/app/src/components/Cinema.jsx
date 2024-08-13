@@ -10,7 +10,7 @@ const { ContentError, MatchError, DuplicityError } = errors
 
 import { nameValue, tempValue, createValue } from './magicValues'
 
-function Cinema({ cinemaId, onUnasignCinema, handleQrClick, handleQrCinemaClick }) {
+function Cinema({ cinemaId, onUnasignCinema, handleQrClick, handleQrCinemaClick, handleDeleteCinema }) {
     const [name, setName] = useState(null)
     const [rooms, setRooms] = useState(null)
     const [isClicked, setClicked] = useState(null)
@@ -154,10 +154,11 @@ function Cinema({ cinemaId, onUnasignCinema, handleQrClick, handleQrCinemaClick 
                 <P>{name}</P>
                 <Button onClick={onUnselectCinema} className='text-xl'>❌</Button>
                 <Button className='text-xl' onClick={handleClickNewRoom}>➕</Button>
-                <QrCodeIcon className='size-8' onClick={() => handleQrCinemaClick(cinemaId)} />
+                <Button className='text-xl' onClick={() => handleDeleteCinema(cinemaId)}>🗑</Button>
+                <QrCodeIcon className='size-8 cursor-pointer' onClick={() => handleQrCinemaClick(cinemaId)} />
             </div>
         </div > : <p>Loading....</p>}
-        <ul className='flex flex-col gap-5'>
+        <ul className='flex flex-col gap-5 w-full'>
             {rooms?.map(room =>
                 <Room key={room.id}
                     room={room}

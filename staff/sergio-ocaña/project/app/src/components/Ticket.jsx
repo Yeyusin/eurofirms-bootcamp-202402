@@ -1,15 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import logic from '../logic'
 import { Button, ButtonText, Form, HTag, Input, P } from './index'
 import { roomValue, seatValue } from './magicValues'
 import { errors } from 'com'
 const { ContentError, MatchError } = errors
 
-function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick }) {
+function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick, refreshStamp }) {
     const [whereIsEditing, setWhereIsEditing] = useState(null)
     const [roomId, setRoomId] = useState(ticket.room.id)
     const [rooms, setRooms] = useState(null)
     const conditionButtons = logic.isManagerUserLoggedIn() && !!whereIsEditing
+
+    useEffect(() => {
+        setWhereIsEditing(null)
+    }, [refreshStamp])
 
     const errorHandler = error => {
         console.error(error)
@@ -40,6 +44,7 @@ function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick }
                 errorHandler(error)
             }
         }
+        else setWhereIsEditing(seatValue)
     }
 
     const onCancelClick = () => setWhereIsEditing(null)
@@ -69,10 +74,10 @@ function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick }
         </div>
         <div className='flex flex-row justify-center gap-5'>
             <HTag level={3}>Room:</HTag>
-            {whereIsEditing === roomValue & rooms ?
+            {whereIsEditing === roomValue ?
                 <Form id='update' onSubmit={onSubmit}>
                     <select name="room" id="room">
-                        {rooms.map(room => <option value={room.id}>{room.name}</option>)}
+                        {rooms?.map(room => <option key={room.id} value={room.id}>{room.name}</option>)}
                     </select>
                 </Form>
                 : <div className='flex flex-row gap-5 self'>
@@ -96,12 +101,13 @@ function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick }
             <HTag level={3}>Id del ticket:</HTag>
             <P>{ticket.id}</P>
         </div>
-        {conditionButtons ?
+        {conditionButtons &&
             <div className='flex flex-row justify-center'>
                 <ButtonText form='update' type='submit'>Update</ButtonText>
                 <ButtonText onClick={onCancelClick}>Cancel</ButtonText>
-            </div> : <div className='flex flex-row justify-center'><P>Have problems in the room? Click Here -→ </P><Button onClick={() => onCreateIssueClick(ticket.id)}>☹️</Button></div>}
-        {logic.isManagerUserLoggedIn() && !whereIsEditing && < Button onClick={onDeleteTicketButton}>🗑️</Button>}
+            </div>}
+        {!logic.isManagerUserLoggedIn() && <div className='flex flex-row justify-center'><P>Have problems in the room? Click Here -→ </P><Button onClick={() => onCreateIssueClick(ticket.id)}>☹️</Button></div>}
+        {logic.isManagerUserLoggedIn() && !whereIsEditing && <div className='flex justify-center'> < Button onClick={onDeleteTicketButton}>🗑️</Button> </div>}
     </article >
 }
 export default Ticket

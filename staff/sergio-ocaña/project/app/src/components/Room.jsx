@@ -17,19 +17,21 @@ function Room({ room, cinemaId, updateRoomName, updateRoomTemp, isClicked, onCan
 
     const onDeleteClickButton = () => onDeleteClick(room.id)
 
-    return <li key={room.id} className='flex flex-col place-items-center gap-5 w-full'>
+    return <li key={room.id} className='flex flex-col justify-center items-center gap-5 w-full'>
 
-        {(isClicked?.id === room.id && isClicked?.value === nameValue) ?
+        {(isClicked?.id === room.id && isClicked?.value === nameValue) ? <div>
+
             <EditField text='Change the name'
                 id='name'
                 defaultValue={room.name}
                 onCancelClick={handleCancelEditButton}
                 onSubmitClick={value => handleClickUpdateName(value)}
             />
-            : <div className='w-full'><P className='flex font-bold' onClick={handleOnNameClick}>{room.name}</P>
+        </div>
+            : <div className='w-full flex flex-center justify-center'><P className='flex font-bold cursor-pointer' onClick={handleOnNameClick}>{room.name}</P>
             </div>}
 
-        {(isClicked?.id === room.id && isClicked?.value === tempValue) ?
+        {(isClicked?.id === room.id && isClicked?.value === tempValue) ? <div className='flex flex-center justify-center w-fulls'>
             <EditField text='Select Temperature'
                 id='temperature'
                 type='number'
@@ -37,11 +39,12 @@ function Room({ room, cinemaId, updateRoomName, updateRoomTemp, isClicked, onCan
                 onCancelClick={handleCancelEditButton}
                 onSubmitClick={value => handleClickUpdateTemp(value)}
             />
+        </div>
             : <>
-                <P className='flex' onClick={handleOnTemperatureClick}> {`${room.temperature} Cº`} </P>
-                <div className='flex flex-row w-full'>
+                <P className='flex cursor-pointer' onClick={handleOnTemperatureClick}> {`${room.temperature} Cº`} </P>
+                <div className='flex flex-row justify-center w-full'>
                     <Button onClick={onDeleteClickButton}>🗑️</Button>
-                    <QrCodeIcon className='size-12' onClick={() => onQrClick(cinemaId, room.id)} />
+                    <QrCodeIcon className='size-12 cursor-pointer' onClick={() => onQrClick(cinemaId, room.id)} />
                 </div>
             </>}
     </li>

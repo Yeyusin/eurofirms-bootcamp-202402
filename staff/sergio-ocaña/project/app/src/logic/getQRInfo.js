@@ -1,4 +1,5 @@
 function getQRInfo() {
-    return sessionStorage.qr
+    const qr = JSON.parse(sessionStorage.qr)
+    return qr
 }
 export default getQRInfo

@@ -42,11 +42,14 @@ function Tickets({ onCreateIssueClick }) {
         }
     }, [refreshStamp])
 
-    const handleSubmited = () => {
+    const handleSubmited = (seat, roomId) => {
         const promise = ticket.room.id === roomId ? logic.updateTicket(ticket.id, seat) : logic.updateTicket(ticket.id, seat, roomId)
         try {
             promise
-                .then(() => setRefreshStamp(Date.now))
+                .then(() => {
+                    setRefreshStamp(Date.now())
+                    alert('ticket updated')
+                })
                 .catch(error => errorHandler(error))
         } catch (error) {
             errorHandler(error)
@@ -136,7 +139,7 @@ function Tickets({ onCreateIssueClick }) {
             {condition && <p>No tickets to show</p>}
             {!logic.isManagerUserLoggedIn() && tickets && tickets?.map(mapTicket =>
                 <Ticket key={mapTicket.id} ticket={mapTicket} onSubmited={handleSubmited} onCreateIssueClick={onCreateIssueClick} />)}
-            {logic.isManagerUserLoggedIn() && ticket && <Ticket ticket={ticket} onDeleteTicketButton={handleDeleteTicket} />}
+            {logic.isManagerUserLoggedIn() && ticket && <Ticket ticket={ticket} refreshStamp={refreshStamp} onSubmited={handleSubmited} onDeleteTicketButton={handleDeleteTicket} />}
         </Article>
         <Form id='asignSearch' onSubmit={onSubmit}>
             <div className='flex flex-row bg-gray-100 fixed w-full bottom-0 mb-12 z-10 gap-1 p-1' >

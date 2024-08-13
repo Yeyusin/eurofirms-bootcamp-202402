@@ -43,19 +43,19 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
         }
     }
     return <>
-        <footer className=''>
+        <header className=''>
             <img src={logo} alt='Logo' />
-        </footer>
+        </header>
 
         <Article>
             <HTag> Login </HTag>
 
-            <Form onSubmit={handleSubmit}>
+            <Form id='login' onSubmit={handleSubmit}>
                 <LabelInput text='E-mail' id='email' />
                 <LabelInput text='Password' type='password' id='password' />
                 <div className='flex flex-row justify-center w-full'>
-                    <ButtonText type="submit"> Login </ButtonText>
                     <ButtonText type="button" onClick={handleRegisterButton}> Register </ButtonText>
+                    <ButtonText form='login' type="submit"> Login </ButtonText>
                 </div>
             </Form>
         </Article>

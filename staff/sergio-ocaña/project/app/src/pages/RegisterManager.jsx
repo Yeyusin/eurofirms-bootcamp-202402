@@ -46,9 +46,9 @@ function RegisterManager({ onUserRegistered, onLoginClick }) {
         }
     }
     return <>
-        <footer>
+        <header>
             <img src={logo} alt='Logo' />
-        </footer>
+        </header>
 
         <Article>
             <HTag> Register as manager </HTag>

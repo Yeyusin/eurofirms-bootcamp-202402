@@ -8,8 +8,6 @@ function deleteCinema(userId, cinemaId) {
     validate.id(userId)
     validate.id(cinemaId, 'cinemaId')
 
-    //  TODO Refactor to promise.all and look forEach deleteComment
-
     return User.findById(userId)
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
@@ -22,43 +20,23 @@ function deleteCinema(userId, cinemaId) {
                 .then(cinema => {
                     if (!cinema) throw new MatchError('Cinema doesn´t exist')
 
-                        .then(() => {
-                            return Issue.find({ cinema: cinemaId }
-                                .catch(error => { throw SystemError(error.message) })
-                                .then((issues) => {
-                                    const deleteIssuesId = issues.map(issue => {
-                                        if (issue.status === 'open') throw new MatchError('You could only delete Cinema without open issues')
+                    return Issue.find({ cinema: cinemaId })
+                        .catch(error => { throw SystemError(error.message) })
+                        .then((issues) => {
+                            const openIssue = issues.find(issue => issue.status === 'open')
+                            if (openIssue) throw new MatchError('You can only delete a cinema without open issues')
 
-                                        return issue._id
-                                    })
-                                })
-                                .then(() => {
-                                    return Cinema.findByIdAndDelete(cinemaId)
-                                        .catch(error => { throw SystemError(error.message) })
-                                        .then(() => {
-                                            return User.updateMany({ cinema: cinemaId }, { $unset: { cinema } })
-                                                .catch(error => { throw SystemError(error.message) })
-                                        })
-                                        .then(() => {
-                                            return Room.deleteMany({ cinema: cinemaId })
-                                                .catch(error => { throw SystemError(error.message) })
+                            const deleteIssuesIds = issues.map(issue => issue._id)
 
-                                        })
-                                        .then(() => {
-                                            return Issue.deleteMany({ cinema: cinemaId })
-                                                .catch(error => { throw SystemError(error.message) })
-
-                                        })
-                                        .then(() => {
-                                            return Comment.deleteMany({ issue: { $in: deleteIssuesId } })
-                                                .catch(error => { throw SystemError(error.message) })
-                                        })
-                                        .then(() => { })
-                                })
-                            )
+                            return Promise.all([
+                                Cinema.findByIdAndDelete(cinemaId),
+                                User.updateMany({ cinema: cinemaId }, { $unset: { cinema: '' } }),
+                                Room.deleteMany({ cinema: cinemaId }),
+                                Issue.deleteMany({ cinema: cinemaId }),
+                                Comment.deleteMany({ issue: { $in: deleteIssuesIds } })
+                            ])
                         })
                 })
         })
 }
-
 export default deleteCinema

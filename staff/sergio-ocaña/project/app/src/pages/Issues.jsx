@@ -105,7 +105,9 @@ function Issues({ handleCommentButton, routeStamp }) {
         }
 
         {issues?.length === 0 && < P className=' place-self-center'>We are happy not issues avalaible to see</P>}
-        {view && <CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />}
+        {view && <div className='w-auto bottom-10 fixed my-10]'>
+            <CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />
+        </div>}
     </Article>
 
 } export default Issues

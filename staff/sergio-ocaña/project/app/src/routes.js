@@ -1,6 +1,6 @@
 const loginRoute = "/login"
 const registerRoute = "/register"
-const registerManagerRoute = "/manager/register"
+const registerManagerRoute = "/registermanager"
 const homeRoute = "/"
 const issueRoute = "/issue"
 const ticketRoute = "/ticket"

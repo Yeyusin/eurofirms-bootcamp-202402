@@ -711,7 +711,7 @@ mongoose.connect(MONGO_URL)
                 const { seat } = req.body
 
                 logic.updateTicket(userId, ticketId, roomId, seat)
-                    .then(() => { res.status(200).send() })
+                    .then(() => { res.status(204).send() })
                     .catch(error => {
                         let status = 500
 

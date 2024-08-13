@@ -43,7 +43,7 @@ function GenerateTicket({ redirectClick }) {
                     <p>{ticket.id}</p>
                 </div>
                 <div className='flex flex-row justify-center'>
-                    <QRCode value={`${import.meta.env.VITE_APP_URL}/${generateTicketRoute}/${ticket.id}`} />
+                    <QRCode value={`${import.meta.env.VITE_APP_URL}${generateTicketRoute}/${ticket.id}`} />
                 </div>
                 <div className='flex flex-col justify-center'>
                     <p className='text-center'>Scan the code, copy the id or click the button</p>

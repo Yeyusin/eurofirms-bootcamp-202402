@@ -36,7 +36,7 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
                             setLocation(name)
                             setStep(3)
                         })
-                        .catch(errorHandler(error))
+                        .catch(error => errorHandler(error))
                 } catch (error) {
                     errorHandler(error)
                 }
@@ -166,7 +166,7 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
         }
     }
 
-    return <Article>
+    return <Article className='w-full focus-visible'>
         <div className='w-full flex flex-col justify-center'>
             {cinemas && step === 0 && <>
                 <HTag level={3}> Select Cinema</HTag>
@@ -174,7 +174,7 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
                 <ul className='flex flex-col'>
                     {cinemas.map(cinema => {
                         return <li
-                            className={'flex cursor-pointer text-blue-300'} onClick={() => handleSelectedCinema(cinema.id)} key={cinema.id}> {cinema.name}
+                            className={'flex cursor-pointer bg-white text-[#4ca4b8]'} onClick={() => handleSelectedCinema(cinema.id)} key={cinema.id}> {cinema.name}
                         </li>
                     })}
                 </ul >
@@ -183,7 +183,7 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
             {step === 1 && <>
                 <HTag level={3}> Is the issue related to a room?</HTag>
 
-                <div className='flex flex-row'>
+                <div className='flex flex-row justify-center'>
                     <ButtonText onClick={handleYesButton}>Yes</ButtonText>
 
                     <ButtonText onClick={handleNoButton}>No</ButtonText>
@@ -193,10 +193,10 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
             {step === 2 && rooms && isLocationRoom && <>
                 <HTag level={3}> Select Room</HTag>
 
-                <ul className='flex flex-col'>
+                <ul className='flex flex-col w-full'>
                     {rooms?.map(room => {
                         return <li
-                            className={'flex cursor-pointer text-blue-300'} onClick={() => handleSelectedRoom(room.id, room.name)} key={room.id}> {room.name}
+                            className={'flex cursor-pointer bg-white text-[#4ca4b8] w-full'} onClick={() => handleSelectedRoom(room.id, room.name)} key={room.id}> {room.name}
                         </li>
                     })}
                 </ul >
