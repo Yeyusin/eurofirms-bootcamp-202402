@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'happy-logo': "url('src/img/logo.png')",
-        'happy-bg': "url('src/img/background.png')",
+        'happy-logo': "url('/images/logo.png')",
+        'happy-bg': "url('/images/background.png')",
       }
     },
   },

@@ -1,7 +1,7 @@
 import { LabelInput, Form, HTag, ButtonText, Article, Main } from '../components'
 import logic from '../logic'
 import { errors } from 'com'
-import logo from '../img/logo.png'
+
 
 const { DuplicityError, ContentError } = errors
 
@@ -19,6 +19,8 @@ function RegisterCustomer({ onUserRegistered, onLoginClick }) {
             feedback = `${feedback}, please log in or try with other email`
 
         else feedback = 'sorry, there was an error, please try again later'
+
+        alert(feedback)
     }
 
     const handleLoginButton = () => {
@@ -47,7 +49,7 @@ function RegisterCustomer({ onUserRegistered, onLoginClick }) {
     }
     return <>
         <header className=''>
-            <img src={logo} alt='Logo' />
+            <img src='/images/logo.png' alt='Logo' />
         </header>
         <Article>
             <HTag>Register</HTag>

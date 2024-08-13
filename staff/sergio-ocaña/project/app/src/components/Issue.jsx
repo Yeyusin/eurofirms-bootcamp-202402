@@ -12,11 +12,11 @@ function Issue({ issue, onCloseIssueButton, onDeleteIssueButton, onCommentButton
             <p className={isIssueOpen ? 'text-green-600' : 'text-red-600'}>{`(${issue.status})`}</p>
         </div>
         <div className={prop}>
-            <p className='text-gray-400'>{issue.cinema.name}</p>
-            <p className='text-gray-400'>{issue.location}</p>
+            <p className='text-white'>{issue.cinema.name}</p>
+            <p className='text-white'>{issue.location}</p>
         </div>
-        <p className='text-gray-400 px-2'>{issue.type}</p>
-        <p className='text-gray-400 px-2'>{issue.description}</p>
+        <p className='text-white px-2'>{issue.type}</p>
+        <p className='text-white px-2'>{issue.description}</p>
         {logic.isManagerUserLoggedIn() && <p className='text-green-600 px-2'>{issue.author.name}</p>}
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row justify-start'>

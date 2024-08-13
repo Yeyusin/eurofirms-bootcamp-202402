@@ -1,7 +1,6 @@
 import { ButtonText, LabelInput, Form, HTag, Main, Article } from '../components'
 import logic from '../logic'
 import { errors } from 'com'
-import logo from '../img/logo.png'
 
 const { MatchError, ContentError } = errors
 
@@ -44,7 +43,7 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
     }
     return <>
         <header className=''>
-            <img src={logo} alt='Logo' />
+            <img src='/images/logo.png' alt='Logo' />
         </header>
 
         <Article>

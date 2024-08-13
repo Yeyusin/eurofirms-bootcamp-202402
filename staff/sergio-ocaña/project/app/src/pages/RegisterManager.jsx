@@ -1,6 +1,5 @@
 import { ButtonText, LabelInput, Form, HTag, Main, Article } from '../components'
 import logic from '../logic'
-import logo from '../img/logo.png'
 
 import { errors } from 'com'
 
@@ -47,7 +46,7 @@ function RegisterManager({ onUserRegistered, onLoginClick }) {
     }
     return <>
         <header>
-            <img src={logo} alt='Logo' />
+            <img src='/images/logo.png' alt='Logo' />
         </header>
 
         <Article>

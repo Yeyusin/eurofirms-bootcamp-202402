@@ -3,7 +3,6 @@ import { Button, ButtonText, HTag } from "../components"
 import QRCode from 'react-qr-code'
 import logic from "../logic"
 import { generateTicketRoute } from '../routes'
-import logo from '../img/logo.png'
 
 function GenerateTicket({ redirectClick }) {
     const [ticket, setTicket] = useState(null)
@@ -20,7 +19,7 @@ function GenerateTicket({ redirectClick }) {
 
     return <main main className='flex flex-col bg-happy-bg bg-cover min-h-screen '>
         <footer className=''>
-            <img src={logo} alt='Logo' />
+            <img src='/images/logo.png' alt='Logo' />
         </footer>
 
         <article className='flex flex-col bg-[#e4b641] min-h-96 bg-opacity-80 rounded-3xl mx-4 justify-center gap-4 shadow-[#e4b641]-50 my-5'>

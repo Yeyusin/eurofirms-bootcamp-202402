@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { Header, Button, MainThin } from '../components'
 import logic from '../logic'
-import logo from '../img/logocut.png'
 
 function HeaderFooter({ onHomeClick, onIssueClick, onTicketClick, onLogoutClick }) {
     const handleLogoutButton = () => {
@@ -14,7 +13,7 @@ function HeaderFooter({ onHomeClick, onIssueClick, onTicketClick, onLogoutClick 
     return <div className='grid grid-rows-[auto_1fr_auto] h-screen'>
         <Header >
             <div className='flex flex-row w-1/8'>
-                <img className='flex-grow' src={logo} alt=' Logo' />
+                <img className='flex-grow' src='/images/logocut.png' alt=' Logo' />
             </div>
             <Button onClick={handleLogoutButton}>🚪</Button>
         </Header>
