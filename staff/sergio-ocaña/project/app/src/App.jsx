@@ -1,6 +1,6 @@
 import logic from './logic'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { loginRoute, registerRoute, registerManagerRoute, homeRoute, issueRoute, ticketRoute, generateTicketRoute, qrRoute, generateQrRoute } from './routes'
+import { loginRoute, registerRoute, registerManagerRoute, homeRoute, issueRoute, ticketRoute, generateTicketRoute, qrRoute, generateQrRoute, createIssueRoute } from './routes'
 import { Login, RegisterCustomer, RegisterManager, Home, HeaderFooter, Issues, IssueWithComments, VoidComponent, Tickets, GenerateTicket, SaveTicket, CreateIssue, SaveQR, MainPage, MainRoute, QrCreate } from './pages'
 import { BgCompo } from './pages'
 
@@ -55,6 +55,8 @@ function App() {
 
   const handleArrowClick = () => navigate(homeRoute)
 
+  const handleCreateIssue = () => navigate(createIssueRoute)
+
   return <Routes>
     {/* <Route element={<BgCompo />}> */}
     <Route path="*" element={<Navigate to={homeRoute} />} />
@@ -66,7 +68,7 @@ function App() {
     <Route element={logic.isUserLoggedIn() ? <HeaderFooter onHomeClick={handleHomeButton} onIssueClick={handleIssueButton} onLogoutClick={handleLogoutButton} onTicketClick={handleTicketClick} /> : <Navigate to={loginRoute} />}>
       <Route path={homeRoute} element={logic.isUserLoggedIn() ? <Home onHomeTicketClick={handleHomeTicketClick} onHomeIssueClick={handleHomeIssueClick} handleQrClick={handleQrClick} handleQrCinemaClick={handleQrCinemaClick} /> : <Navigate to={loginRoute} />} />
       <Route element={logic.isUserLoggedIn() && (!logic.isManagerUserLoggedIn() || (logic.isManagerUserLoggedIn() && logic.isUserAssignedCinema())) ? <VoidComponent /> : <Navigate to={homeRoute} />}>
-        <Route path={issueRoute} element={<Issues handleCommentButton={handleCommentButton} />} > </Route>
+        <Route path={issueRoute} element={<Issues handleCommentButton={handleCommentButton} onCreateIssue={handleCreateIssue} />} > </Route>
         <Route path={`${issueRoute}/:issueId`} element={<IssueWithComments onLeftArrowClick={handleLeftArrowClick} />} />
         <Route path={ticketRoute} element={<Tickets onCreateIssueClick={handleOnCreateIssueClick} />} />
         {/*manager route only */}
@@ -75,6 +77,7 @@ function App() {
         <Route element={logic.isUserLoggedIn() && !logic.isManagerUserLoggedIn() ? <MainRoute /> : <Navigate to={issueRoute} />}>
           <Route path={`${issueRoute}${ticketRoute}/:ticketId`} element={<CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />} />
           <Route path={`${issueRoute}${qrRoute}`} element={<CreateIssue handleCancelButtonIssue={handleCancelButtonToIssues} handleCreatedIssue={handleCreatedIssue} />} />
+          <Route path={createIssueRoute} element={<CreateIssue handleCancelButtonIssue={handleCancelButtonToIssues} handleCreatedIssue={handleCreatedIssue} />} />
         </Route>
       </Route>
     </Route>

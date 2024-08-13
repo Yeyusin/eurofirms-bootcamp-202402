@@ -67,13 +67,13 @@ function Home({ onHomeTicketClick, onHomeIssueClick, handleQrClick, handleQrCine
     }
 
     return <>
-        <Article className='top-10 gap-4'>
+        <Article className='top-10 gap-2'>
 
             <HTag > {user ? `Welcome, ${user.name}` : 'Loading...'}</HTag>
             {user && logic.isManagerUserLoggedIn() && user.cinema && <Cinema onUnasignCinema={handleUnasignCinema} handleDeleteCinema={handleDeleteCinema} handleQrClick={handleQrClick} handleQrCinemaClick={handleQrCinemaClick} cinemaId={user.cinema} />}
             {showFormCinema === 1 && !user?.cinema && <FormCinema onAsignedCinema={handleAsignedCinema} />}
             {user && !logic.isManagerUserLoggedIn() &&
-                <div className='flex flex-col gap-8 rounded w-full mb-2'>
+                <div className='flex flex-col gap-4 rounded w-full mb-2'>
                     <button onClick={onHomeTicketClick} className='rounded-full text-9xl bg-gray- w-full h-80 inline-block bg-[#b98724]'>🎟️</button>
                     <button onClick={onHomeIssueClick} className='rounded-full text-9xl w-full h-80 inline-block bg-[#b98724]'>☹️</button>
                 </div>}

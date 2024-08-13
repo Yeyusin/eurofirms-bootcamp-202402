@@ -149,16 +149,19 @@ function Cinema({ cinemaId, onUnasignCinema, handleQrClick, handleQrCinemaClick,
 
     return <>
         {name ? <div className='flex-flex-row w-full'>
-            <div className='flex flex-row justify-center gap-2'>
+            <div className='flex flex-col justify-center'>
                 <HTag level={2}>Your cinema is :</HTag>
-                <P>{name}</P>
-                <Button onClick={onUnselectCinema} className='text-xl'>❌</Button>
-                <Button className='text-xl' onClick={handleClickNewRoom}>➕</Button>
-                <Button className='text-xl' onClick={() => handleDeleteCinema(cinemaId)}>🗑</Button>
-                <QrCodeIcon className='size-8 cursor-pointer' onClick={() => handleQrCinemaClick(cinemaId)} />
+
+                <div className='flex flex-row justify-center gap-2'>
+                    <P className='font-bold'>{name}</P>
+                    <Button onClick={onUnselectCinema} className='text-xl'>❌</Button>
+                    <Button className='text-xl' onClick={handleClickNewRoom}>➕</Button>
+                    <Button className='text-xl' onClick={() => handleDeleteCinema(cinemaId)}>🗑</Button>
+                    <QrCodeIcon className='size-8 cursor-pointer' onClick={() => handleQrCinemaClick(cinemaId)} />
+                </div>
             </div>
         </div > : <p>Loading....</p>}
-        <ul className='flex flex-col gap-5 w-full'>
+        <ul className='flex flex-col gap-5 w-full h-auto overflow-auto'>
             {rooms?.map(room =>
                 <Room key={room.id}
                     room={room}
@@ -172,7 +175,7 @@ function Cinema({ cinemaId, onUnasignCinema, handleQrClick, handleQrCinemaClick,
                     onQrClick={handleQrClick}
                     cinemaId={cinemaId} />
             )}
-            {rooms?.length === 0 && <p> Create your first room </p>}
+            {rooms?.length === 0 && <p className='text-center text-xl'> Create your first room </p>}
             {(isClicked?.value === createValue) && <CreateRoom handleCancelButtonRoom={handleCancelButtonRoom} handleCreateRoom={onSubmitRoom} />}
 
         </ul>

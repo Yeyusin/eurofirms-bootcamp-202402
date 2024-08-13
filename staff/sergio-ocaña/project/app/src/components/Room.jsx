@@ -17,7 +17,7 @@ function Room({ room, cinemaId, updateRoomName, updateRoomTemp, isClicked, onCan
 
     const onDeleteClickButton = () => onDeleteClick(room.id)
 
-    return <li key={room.id} className='flex flex-col justify-center items-center gap-5 w-full'>
+    return <li key={room.id} className='flex flex-col justify-center items-center gap-5 w-full h-auto'>
 
         {(isClicked?.id === room.id && isClicked?.value === nameValue) ? <div>
 
@@ -41,7 +41,7 @@ function Room({ room, cinemaId, updateRoomName, updateRoomTemp, isClicked, onCan
             />
         </div>
             : <>
-                <P className='flex cursor-pointer' onClick={handleOnTemperatureClick}> {`${room.temperature} Cº`} </P>
+                <P className='flex cursor-pointer' onClick={handleOnTemperatureClick}> {`T: ${room.temperature} Cº`} </P>
                 <div className='flex flex-row justify-center w-full'>
                     <Button onClick={onDeleteClickButton}>🗑️</Button>
                     <QrCodeIcon className='size-12 cursor-pointer' onClick={() => onQrClick(cinemaId, room.id)} />

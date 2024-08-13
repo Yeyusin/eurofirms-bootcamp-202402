@@ -67,7 +67,7 @@ function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick, 
         }
     }
 
-    return <article className='flex flex-col bg-gray-200 shadow-md shadow-gray-400 rounded-3xl justify-center w-full p-2'>
+    return <li className='flex flex-col bg-gray-200 shadow-md shadow-gray-400 rounded-3xl justify-center w-full p-2'>
         <div className='flex flex-row justify-center gap-5'>
             <HTag level={3}>Cinema:</HTag>
             <P>{ticket.cinema.name}</P>
@@ -108,6 +108,6 @@ function Ticket({ ticket, onDeleteTicketButton, onSubmited, onCreateIssueClick, 
             </div>}
         {!logic.isManagerUserLoggedIn() && <div className='flex flex-row justify-center'><P>Have problems in the room? Click Here -→ </P><Button onClick={() => onCreateIssueClick(ticket.id)}>☹️</Button></div>}
         {logic.isManagerUserLoggedIn() && !whereIsEditing && <div className='flex justify-center'> < Button onClick={onDeleteTicketButton}>🗑️</Button> </div>}
-    </article >
+    </li >
 }
 export default Ticket

@@ -36,6 +36,7 @@ function QrCreate({ onArrowClick }) {
             </>
                 : <div className='flex flex-col justify-center w-full items-center'>
                     <Form onSubmit={onSubmit}>
+                        <HTag>Location left</HTag>
                         <Input id='location' placeholder='Put location for QR' />
                         <ButtonText>Generate QR</ButtonText>
                     </Form>

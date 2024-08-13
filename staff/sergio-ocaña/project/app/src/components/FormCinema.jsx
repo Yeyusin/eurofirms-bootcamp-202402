@@ -62,12 +62,12 @@ function FormCinema({ onAsignedCinema }) {
 
     return <>
         {showFormCreateCinema === 0 && <HTag>Select Cinema</HTag>}
-        <ul className='w-full'>
+        <ul className='w-full flex flex-col'>
             {showFormCreateCinema === 0 && cinemas && cinemas.map(cinema => {
                 const isCinemaSelected = selectedCinema === cinema.id
 
                 return <li
-                    className={`flex cursor-pointer w-full border-2 text-[#4ca4b8] ${isCinemaSelected ? 'bg-yellow-600' : ' bg-white'}`}
+                    className={`flex cursor-pointer w-full border-2 px-2 font-bold text-[#4ca4b8] ${isCinemaSelected ? ' bg-[#e4b641]' : ' bg-white'}`}
                     onClick={() => isCinemaSelected ? unselectCinema() : selectCinema(cinema.id)} key={cinema.id}>
                     {cinema.name}
                 </li>
@@ -75,7 +75,7 @@ function FormCinema({ onAsignedCinema }) {
             })}
             {cinemas?.length === 0 && <p> Create your first cinema </p>}
 
-            {showFormCreateCinema === 0 && <div className='flex justify-around space between '>
+            {showFormCreateCinema === 0 && <div className='flex flext-row justify-center '>
                 <ButtonText onClick={handleCreateCinemaClick}>New Cinema</ButtonText>
                 <ButtonText onClick={() => handleAsignCinema(selectedCinema)}>Asign Cinema</ButtonText>
             </div>}

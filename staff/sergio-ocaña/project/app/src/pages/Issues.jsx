@@ -8,7 +8,7 @@ import { errors } from 'com'
 const { MatchError, ContentError } = errors
 
 
-function Issues({ handleCommentButton, routeStamp }) {
+function Issues({ handleCommentButton, routeStamp, onCreateIssue }) {
     const [issues, setIssues] = useState(null)
     const [status, setStatus] = useState('open')
     const [view, setView] = useState(null)
@@ -88,26 +88,31 @@ function Issues({ handleCommentButton, routeStamp }) {
         }
     }
 
+
+
     return <Article>
-        <div className='flex flex-row justify-center w-full h-8'>
-            <div className='w-1/2 flex flex-col justify-center'>
-                <HTag>Issues </HTag>
+        <div className='flex flex-col w-full h-full gap-2'>
+            <div className='flex flex-row justify-center w-full h-8'>
+                <div className='w-1/2 flex flex-col justify-center'>
+                    <HTag>Issues </HTag>
+                </div>
+                {!logic.isManagerUserLoggedIn() && <Button className='text-2xl' onClick={onCreateIssue}>➕</Button>}
+                <div className='w-1/2 flex flex-row justify-end'>
+                    <RadioButton status={status} OnRadioButtonClick={handleRadioButtonClick} />
+                </div>
             </div>
-            {!logic.isManagerUserLoggedIn() && <Button className='text-2xl' onClick={handleCreateView}>➕</Button>}
-            <div className='w-1/2 flex flex-row justify-end'>
-                <RadioButton status={status} OnRadioButtonClick={handleRadioButtonClick} />
-            </div>
+
+            <section className='flex flex-col gap-2 h-auto overflow-auto'>
+                {issues ? issues?.filter(issue => issue.status === status).map(issue => {
+                    return <Issue key={issue.id} issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} commentButton={1} />
+                }) : <P className=' place-self-center'>We are happy not issues avalaible to see</P>
+                }
+            </section>
+
+            {issues?.length === 0 && < P className=' place-self-center'>We are happy not issues avalaible to see</P>}
+            {view && <div className='w-auto bottom-10 fixed my-10]'>
+                <CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />
+            </div>}
         </div>
-
-        {issues ? issues?.filter(issue => issue.status === status).map(issue => {
-            return <Issue key={issue.id} issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />
-        }) : <P className=' place-self-center'>We are happy not issues avalaible to see</P>
-        }
-
-        {issues?.length === 0 && < P className=' place-self-center'>We are happy not issues avalaible to see</P>}
-        {view && <div className='w-auto bottom-10 fixed my-10]'>
-            <CreateIssue handleCancelButtonIssue={handleCancelButtonIssue} handleCreatedIssue={handleCreatedIssue} />
-        </div>}
     </Article>
-
 } export default Issues

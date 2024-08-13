@@ -136,10 +136,12 @@ function Tickets({ onCreateIssueClick }) {
         <Article>
             <HTag >Tickets</HTag>
 
-            {condition && <p>No tickets to show</p>}
-            {!logic.isManagerUserLoggedIn() && tickets && tickets?.map(mapTicket =>
-                <Ticket key={mapTicket.id} ticket={mapTicket} onSubmited={handleSubmited} onCreateIssueClick={onCreateIssueClick} />)}
-            {logic.isManagerUserLoggedIn() && ticket && <Ticket ticket={ticket} refreshStamp={refreshStamp} onSubmited={handleSubmited} onDeleteTicketButton={handleDeleteTicket} />}
+            <ul className='flex flex-col w-full gap-2 h-auto overflow-auto'>
+                {condition && <p>No tickets to show</p>}
+                {!logic.isManagerUserLoggedIn() && tickets && tickets?.map(mapTicket =>
+                    <Ticket key={mapTicket.id} ticket={mapTicket} onSubmited={handleSubmited} onCreateIssueClick={onCreateIssueClick} />)}
+                {logic.isManagerUserLoggedIn() && ticket && <Ticket ticket={ticket} refreshStamp={refreshStamp} onSubmited={handleSubmited} onDeleteTicketButton={handleDeleteTicket} />}
+            </ul>
         </Article>
         <Form id='asignSearch' onSubmit={onSubmit}>
             <div className='flex flex-row bg-gray-100 fixed w-full bottom-0 mb-12 z-10 gap-1 p-1' >

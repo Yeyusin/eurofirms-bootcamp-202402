@@ -166,15 +166,15 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
         }
     }
 
-    return <Article className='w-full focus-visible'>
-        <div className='w-full flex flex-col justify-center'>
+    return <section className='flex flex-col justify-center align-center mr-10'>
+        <Article className='w-full focus-visible gap-2'>
             {cinemas && step === 0 && <>
                 <HTag level={3}> Select Cinema</HTag>
 
-                <ul className='flex flex-col'>
+                <ul className='flex flex-col w-full gap-1'>
                     {cinemas.map(cinema => {
                         return <li
-                            className={'flex cursor-pointer bg-white text-[#4ca4b8]'} onClick={() => handleSelectedCinema(cinema.id)} key={cinema.id}> {cinema.name}
+                            className={'flex cursor-pointer rounded-md p-1 bg-white text-[#4ca4b8]'} onClick={() => handleSelectedCinema(cinema.id)} key={cinema.id}> {cinema.name}
                         </li>
                     })}
                 </ul >
@@ -193,10 +193,10 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
             {step === 2 && rooms && isLocationRoom && <>
                 <HTag level={3}> Select Room</HTag>
 
-                <ul className='flex flex-col w-full'>
+                <ul className='flex flex-col w-full gap-1'>
                     {rooms?.map(room => {
                         return <li
-                            className={'flex cursor-pointer bg-white text-[#4ca4b8] w-full'} onClick={() => handleSelectedRoom(room.id, room.name)} key={room.id}> {room.name}
+                            className={'flex cursor-pointer bg-white text-[#4ca4b8] w-full rounded-md p-1'} onClick={() => handleSelectedRoom(room.id, room.name)} key={room.id}> {room.name}
                         </li>
                     })}
                 </ul >
@@ -239,6 +239,6 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
 
             </>}
             <ButtonText onClick={handleCancelButtonIssue}>Cancel</ButtonText>
-        </div>
-    </Article>
+        </Article>
+    </section>
 } export default CreateIssue

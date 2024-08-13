@@ -52,14 +52,14 @@ function Comment({ comment, isEditing, onDeleteClick, onSubmitUpdate, onCancelCl
         onSubmitUpdate(comment.id, updateText)
     }
 
-    return < article className='w-full bg-white rounded-xl p-2'>
+    return <li className='w-full h-auto gap-8 bg-white rounded-xl p-2'>
         <HTag level={3}>{author.name}</HTag>
         {isEditing?.value && isEditingComment ? <>
-            <Form onSubmit={handleSubmit}>
+            <Form id='editText' onSubmit={handleSubmit}>
                 <LabelInput text='Text to update' id='text' defaultValue={text} />
-                <div className='flex flex-row'>
+                <div className='flex flex-row justify-center'>
                     <ButtonText type='button' onClick={onCancelClick}>Cancel</ButtonText>
-                    <ButtonText type='submit'>Update</ButtonText>
+                    <ButtonText form='editText' type='submit'>Update</ButtonText>
                 </div>
             </Form >
         </>
@@ -69,5 +69,5 @@ function Comment({ comment, isEditing, onDeleteClick, onSubmitUpdate, onCancelCl
                 {isAuthorComment && <Button onClick={() => onEditClick(comment.id)}>✏️</Button>}
                 {(isAuthorComment || logic.isManagerUserLoggedIn()) && < Button onClick={() => onDeleteClick(comment.id)}>🗑️</Button>}
             </>}
-    </article >
+    </li >
 } export default Comment

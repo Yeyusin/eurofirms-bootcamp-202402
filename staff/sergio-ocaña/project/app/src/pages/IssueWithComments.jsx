@@ -5,6 +5,7 @@ import Issue from '../components/Issue'
 import logic from '../logic'
 import { errors } from 'com'
 import Comment from '../components/Comment'
+import { PaperAirplaneIcon } from '@heroicons/react/16/solid'
 
 const { ContentError, MatchError } = errors
 
@@ -111,29 +112,30 @@ function IssueWithComments({ onLeftArrowClick }) {
         }
     }
 
-    const onCancelComment = () => setCreateComment(null)
-
     const handleCancelClick = () => setIsEditing({ value: false, id: 0 })
 
     const handleEditButton = commentId => setIsEditing({ value: true, id: commentId })
 
     const handleCommentButton = () => setCreateComment(true)
 
-    return <Article>
-        <Button className='text-3xl' onClick={onLeftArrowClick}>←</Button >
-        {issue && <Issue issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />}
-        {comments?.length !== 0 && comments?.map(comment => {
-            return <Comment key={comment.id} onDeleteClick={handleDeleteClick} onSubmitUpdate={handleSubmitUpdate} onCancelClick={handleCancelClick} onCommentButtonClick={handleCommentButton} handleEditButton={handleEditButton} comment={comment} isEditing={isEditing} />
-        })}
-        {createComment && <div className='w-full flex-flex-col justify-center fixed bottom-12 pt-4 border-box  bg-[#e4b641]'>
-            <Form id='addComent' onSubmit={handleCreateSubmit}>
-                <Input id='text' placeholder='Add a new comment' />
-                <div className='w-full flex flex-row justify-center'>
-                    <ButtonText type='button' onClick={onCancelComment}>Cancel</ButtonText>
-                    <ButtonText form='addComent' type='submit'>Send</ButtonText>
-                </div>
-            </Form>
-        </div>}
+    return <><Article>
+        <div className='flex flex-col gap-2 w-full h-full'>
+            <Button className='text-5xl' onClick={onLeftArrowClick}>←</Button >
+            {issue && <Issue issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />}
+            <ul className='flex flex-col h-auto w-full gap-2 overflow-auto'>
+                {comments?.length !== 0 && comments?.map(comment => {
+                    return <Comment key={comment.id} onDeleteClick={handleDeleteClick} onSubmitUpdate={handleSubmitUpdate} onCancelClick={handleCancelClick} onCommentButtonClick={handleCommentButton} handleEditButton={handleEditButton} comment={comment} isEditing={isEditing} />
+                })}
+            </ul>
+        </div>
     </Article>
+        < Form id='addComment' onSubmit={handleCreateSubmit}>
+            <div className='flex flex-row bg-gray-100 fixed w-full bottom-0 mb-12 z-10 gap-1 p-1' >
+                <Input id='text' placeholder='Add a new comment' />
+                <Button form='addComment' type='submit'>💬</Button>
+                {/* <PaperAirplaneIcon className='size-8' form='addComment' type='submit' /> */}
+            </div>
+        </Form>
+    </>
 }
 export default IssueWithComments

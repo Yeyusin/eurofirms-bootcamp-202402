@@ -51,14 +51,16 @@ function Login({ onUserLoggedIn, onRegisterClick }) {
             <HTag> Login </HTag>
 
             <Form id='login' onSubmit={handleSubmit}>
-                <LabelInput text='E-mail' id='email' />
-                <LabelInput text='Password' type='password' id='password' />
-                <div className='flex flex-row justify-center w-full'>
-                    <ButtonText type="button" onClick={handleRegisterButton}> Register </ButtonText>
-                    <ButtonText form='login' type="submit"> Login </ButtonText>
+                <div className='flex flex-col justify-center overflow-auto w-auto'>
+                    <LabelInput text='E-mail' id='email' />
+                    <LabelInput text='Password' type='password' id='password' />
+                    <div className='flex flex-row justify-center w-full'>
+                        <ButtonText type="button" onClick={handleRegisterButton}> Register </ButtonText>
+                        <ButtonText form='login' type="submit"> Login </ButtonText>
+                    </div>
                 </div>
             </Form>
-        </Article>
+        </Article >
     </>
 }
 export default Login

@@ -7,6 +7,7 @@ const ticketRoute = "/ticket"
 const generateTicketRoute = "/generateTicket"
 const qrRoute = "/QR"
 const generateQrRoute = "/generateQr"
+const createIssueRoute = "/createIssue"
 
 export {
     loginRoute,
@@ -17,5 +18,6 @@ export {
     ticketRoute,
     generateTicketRoute,
     qrRoute,
-    generateQrRoute
+    generateQrRoute,
+    createIssueRoute
 }
