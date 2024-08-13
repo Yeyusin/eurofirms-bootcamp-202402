@@ -58,6 +58,8 @@ function IssueWithComments({ onLeftArrowClick }) {
         }
     }
 
+    const onDeleteIssue = () => setTimeStamp(Date.now())
+
     const handleDeleteIssueButton = issueId => {
         const deleteOrNot = confirm('Are you sure about to delete this issue?')
 

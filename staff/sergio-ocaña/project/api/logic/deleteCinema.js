@@ -1,4 +1,4 @@
-import { Cinema, User, Room, Issue, Comment } from '../data/index.js'
+import { Cinema, User, Room, Issue, Comment, Ticket } from '../data/index.js'
 import { validate, errors } from 'com'
 
 const { MatchError, SystemError } = errors
@@ -33,7 +33,8 @@ function deleteCinema(userId, cinemaId) {
                                 User.updateMany({ cinema: cinemaId }, { $unset: { cinema: '' } }),
                                 Room.deleteMany({ cinema: cinemaId }),
                                 Issue.deleteMany({ cinema: cinemaId }),
-                                Comment.deleteMany({ issue: { $in: deleteIssuesIds } })
+                                Comment.deleteMany({ issue: { $in: deleteIssuesIds } }),
+                                Ticket.deleteMany({ cinema: cinemaId })
                             ])
                         })
                 })

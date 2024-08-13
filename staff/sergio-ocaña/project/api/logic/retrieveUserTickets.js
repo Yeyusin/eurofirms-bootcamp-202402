@@ -17,7 +17,7 @@ function retrieveUserTicket(userId) {
                 .catch(error => { throw new SystemError(error.message) })
                 .then(tickets => {
                     tickets.forEach(ticket => {
-                        if (ticket._id) {
+                        if (ticket?._id) {
                             ticket.id = ticket._id.toString()
 
                             delete ticket._id
@@ -25,13 +25,13 @@ function retrieveUserTicket(userId) {
 
                         const { cinema, room } = ticket
 
-                        if (cinema._id) {
+                        if (cinema?._id) {
                             cinema.id = cinema._id.toString()
 
                             delete cinema._id
                         }
 
-                        if (room._id) {
+                        if (room?._id) {
                             room.id = room._id.toString()
 
                             delete room._id
