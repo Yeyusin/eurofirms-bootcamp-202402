@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Form, Input, Button, ButtonText, Article } from '../components'
+import { Form, Input, Button, Article } from '../components'
 import Issue from '../components/Issue'
 import logic from '../logic'
 import { errors } from 'com'
@@ -14,9 +14,7 @@ function IssueWithComments({ onLeftArrowClick }) {
 
     const [comments, setComments] = useState(null)
     const [issue, setIssue] = useState(null)
-    const [refreshStamp, setRefreshStamp] = useState(Date.now())
     const [isEditing, setIsEditing] = useState({ value: false, id: 0 })
-    const [createComment, setCreateComment] = useState(null)
 
     const errorHandler = error => {
         console.error(error)
@@ -35,23 +33,30 @@ function IssueWithComments({ onLeftArrowClick }) {
     }
 
     useEffect(() => {
-        try {
-            logic.retrieveCommentsFromIssue(issueId)
-                .then(({ comments, issue }) => {
-                    setComments(comments)
-                    setIssue(issue)
-                })
-                .catch(error => errorHandler(error))
+        let intervalId
 
-        } catch (error) {
-            errorHandler(error)
-        }
-    }, [refreshStamp])
+        retrieveCommentsFromIssue(issueId)
+            .then(() => {
+                intervalId = setInterval(() => {
+                    retrieveCommentsFromIssue(issueId)
+                }, 1000)
+            })
+
+        return () => clearInterval(intervalId)
+    }, [])
+
+    const retrieveCommentsFromIssue = issueId => {
+        return logic.retrieveCommentsFromIssue(issueId)
+            .then(({ comments, issue }) => {
+                setComments(comments)
+                setIssue(issue)
+            })
+    }
 
     const handleCloseIssueButton = issueId => {
         try {
             logic.closeIssue(issueId)
-                .then(() => setTimeStamp(Date.now()))
+                .then(() => retrieveCommentsFromIssue(issueId))
                 .catch(error => errorHandler(error))
         } catch (error) {
             errorHandler(error)
@@ -78,7 +83,7 @@ function IssueWithComments({ onLeftArrowClick }) {
         if (!deleteOrNot) return
         try {
             logic.deleteComment(commentId)
-                .then(() => setRefreshStamp(Date.now))
+                .then(() => retrieveCommentsFromIssue(issueId))
                 .catch(error => errorHandler(error))
 
         } catch (error) {
@@ -94,7 +99,7 @@ function IssueWithComments({ onLeftArrowClick }) {
 
         try {
             logic.createComment(issueId, text)
-                .then(() => setRefreshStamp(Date.now()))
+                .then(() => retrieveCommentsFromIssue(issueId))
                 .catch(error => errorHandler(error))
         } catch (error) {
             errorHandler(error)
@@ -105,7 +110,7 @@ function IssueWithComments({ onLeftArrowClick }) {
         try {
             logic.updateComment(commentId, text)
                 .then(() => {
-                    setRefreshStamp(Date.now())
+                    retrieveCommentsFromIssue(issueId)
                     setIsEditing({ value: false, id: 0 })
                 })
                 .catch(error => errorHandler(error))
@@ -118,19 +123,20 @@ function IssueWithComments({ onLeftArrowClick }) {
 
     const handleEditButton = commentId => setIsEditing({ value: true, id: commentId })
 
-    const handleCommentButton = () => setCreateComment(true)
+    const handleCommentButton = () => { }
 
-    return <><Article>
-        <div className='flex flex-col gap-2 w-full h-full'>
-            <Button className='text-5xl' onClick={onLeftArrowClick}>←</Button >
-            {issue && <Issue issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />}
-            <ul className='flex flex-col h-auto w-full gap-2 overflow-auto'>
-                {comments?.length !== 0 && comments?.map(comment => {
-                    return <Comment key={comment.id} onDeleteClick={handleDeleteClick} onSubmitUpdate={handleSubmitUpdate} onCancelClick={handleCancelClick} onCommentButtonClick={handleCommentButton} handleEditButton={handleEditButton} comment={comment} isEditing={isEditing} />
-                })}
-            </ul>
-        </div>
-    </Article>
+    return <>
+        <Article>
+            <div className='flex flex-col gap-2 w-full h-full'>
+                <Button className='text-5xl' onClick={onLeftArrowClick}>←</Button >
+                {issue && <Issue issue={issue} onCommentButtonClick={handleCommentButton} onCloseIssueButton={handleCloseIssueButton} onDeleteIssueButton={handleDeleteIssueButton} />}
+                <ul className='flex flex-col h-auto w-full gap-2 overflow-auto'>
+                    {comments?.length !== 0 && comments?.map(comment => {
+                        return <Comment key={comment.id} onDeleteClick={handleDeleteClick} onSubmitUpdate={handleSubmitUpdate} onCancelClick={handleCancelClick} onCommentButtonClick={handleCommentButton} handleEditButton={handleEditButton} comment={comment} isEditing={isEditing} />
+                    })}
+                </ul>
+            </div>
+        </Article>
         < Form id='addComment' onSubmit={handleCreateSubmit}>
             <div className='flex flex-row bg-gray-100 fixed w-full bottom-0 mb-12 z-10 gap-1 p-1' >
                 <Input id='text' placeholder='Add a new comment' />

@@ -21,7 +21,7 @@ function Issue({ issue, onCloseIssueButton, onDeleteIssueButton, onCommentButton
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row justify-start'>
                 {commentButton && <Button onClick={() => onCommentButtonClick(issue.id)}>💬</Button>}
-                {logic.isManagerUserLoggedIn() && <>
+                {commentButton && logic.isManagerUserLoggedIn() && <>
                     <Button onClick={() => onCloseIssueButton(issue.id)}>✔</Button>
                     <Button onClick={() => onDeleteIssueButton(issue.id)}>🗑</Button>
                 </>

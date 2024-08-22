@@ -175,7 +175,7 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
                     {cinemas?.map(cinema => {
                         return <li
                             className={'flex cursor-pointer rounded-md p-1 bg-white text-[#4ca4b8]'} onClick={() => handleSelectedCinema(cinema.id)} key={cinema.id}> {cinema.name}
-                            {rooms.length === 0 && <P>No cinema avalaible to asign</P>}
+                            {rooms?.length === 0 && <P>No cinema avalaible to asign</P>}
                         </li>
                     })}
                 </ul >
@@ -200,7 +200,7 @@ function CreateIssue({ handleCancelButtonIssue, handleCreatedIssue }) {
                             className={'flex cursor-pointer bg-white text-[#4ca4b8] w-full rounded-md p-1'} onClick={() => handleSelectedRoom(room.id, room.name)} key={room.id}> {room.name}
                         </li>
                     })}
-                    {rooms.length === 0 && <P>No rooms avalaible to asign</P>}
+                    {rooms?.length === 0 && <P>No rooms avalaible to asign</P>}
                 </ul >
             </>}
 
